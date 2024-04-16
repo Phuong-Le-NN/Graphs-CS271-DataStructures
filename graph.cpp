@@ -37,7 +37,11 @@ template <typename K, typename D>
 typename    Graph<K, D>::
 Vertex*     Graph<K, D>::get        (K key) const
 {
-
+    // Find key in dictionary
+    if (vertices.find(key) != vertices.end()) {
+        return &vertices[key];  // Return pointer if found
+    }
+    return nullptr;     // Else return NULL
 }
 
 //========================================================
@@ -53,7 +57,9 @@ Vertex*     Graph<K, D>::get        (K key) const
 template <typename K, typename D>
 bool        Graph<K, D>::reachable   (K u, K v) const
 {
-    return true;
+    bfs(u);                         // Call BFS
+    Vertex* vertX = get(v);         // Get vertex
+    return vertX->distance != -1;   // Return if reachable from u
 }
 
 //========================================================

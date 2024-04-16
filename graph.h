@@ -13,19 +13,23 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 template <typename K, typename D>
 class Graph {
 private:
-    struct Vertex
-    {
-        K       key;
-        D       data;
-        int     distance;
-        K       predecessor;
+    struct Vertex {
+        D data;         // Data associated with the vertex
+        K key;          // Key of the vertex
+        int distance;   // Distance from the source vertex during BFS
+        K parent;       // Parent vertex key during BFS
+        bool visited;   // Flag to mark if the vertex has been visited during BFS
     };
+
+unordered_map<K, Vertex> vertices;                  // Dictionary: Keys -> Vertices
+unordered_map<K, vector<Vertex*>> adjList;          // Dictionary: Keys -> List of Adjacent Vertices
 
 public:
             Graph           (vector<K> keys, vector<D> data, vector<vector<K>> edges);  // Constructor
