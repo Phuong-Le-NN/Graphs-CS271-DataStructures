@@ -21,7 +21,25 @@
 template <typename K, typename D>
             Graph<K, D>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
 {
-    
+    // Create vertices and store them in the vertices map
+    for (int i = 0; i < keys.size(); i++) {
+        Vertex v;
+        v.key = keys[i];
+        v.data = data[i];
+        v.distance = -1;
+        v.parent;
+        v.visited = false;
+        vertices[keys[i]] = v;
+    }
+
+    // Build the adjacency list using the edges
+    for (int i = 0; i < keys.size(); i++) {
+        vector<Vertex*> neighbors;  // Initialize adjacency list
+        for (int j = 0; j < edges[i].size(); j++) {
+            neighbors.push_back(&vertices[edges[i][j]]);
+        }
+        adjList[keys[i]] = neighbors;   // Map adjacency list to vertex key
+    }
 }
 
 //========================================================
