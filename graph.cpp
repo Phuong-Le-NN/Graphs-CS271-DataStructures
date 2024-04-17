@@ -23,11 +23,10 @@ template <typename K, typename D>
 {
     // Create vertices and store them in the vertices map
     for (int i = 0; i < keys.size(); i++) {
-        Vertex v;
+        Vertex v; 
         v.key = keys[i];
         v.data = data[i];
         v.distance = -1;
-        v.parent;
         v.visited = false;
         vertices[keys[i]] = v;
     }
@@ -53,7 +52,7 @@ template <typename K, typename D>
 //========================================================
 template <typename K, typename D>
 typename    Graph<K, D>::
-Vertex*     Graph<K, D>::get        (K key) const
+Vertex*     Graph<K, D>::get        (K key) 
 {
     // Find key in dictionary
     if (vertices.find(key) != vertices.end()) {
@@ -73,7 +72,7 @@ Vertex*     Graph<K, D>::get        (K key) const
 // Return: Boolean indicating if vertex with key v is reachable from vertex with key u
 //========================================================
 template <typename K, typename D>
-bool        Graph<K, D>::reachable   (K u, K v) const
+bool        Graph<K, D>::reachable   (K u, K v)
 {
     bfs(u);                         // Call BFS
     Vertex* vertX = get(v);         // Get vertex
@@ -106,7 +105,7 @@ void        Graph<K, D>::bfs         (K s)
 // Return: None
 //========================================================
 template<typename K, typename D>
-void        Graph<K, D>::print_path  (K u, K v) const
+void        Graph<K, D>::print_path  (K u, K v) 
 {
 
 }
@@ -122,7 +121,7 @@ void        Graph<K, D>::print_path  (K u, K v) const
 // Return: string representation of edge from vertex with key u to vertex with key v
 //========================================================
 template<typename K, typename D>
-string      Graph<K, D>::edge_class     (K u, K v) const
+string      Graph<K, D>::edge_class     (K u, K v) 
 {
     return "";
 }     
@@ -136,7 +135,7 @@ string      Graph<K, D>::edge_class     (K u, K v) const
 // Return: None
 //========================================================
 template<typename K, typename D>
-void        Graph<K, D>::bfs_tree       (K s) const
+void        Graph<K, D>::bfs_tree       (K s) 
 {
 
 }
