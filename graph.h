@@ -13,6 +13,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <queue>
 #include <unordered_map>
 
 using namespace std;
@@ -21,12 +22,16 @@ template <typename K, typename D>
 class Graph {
 private:
     struct Vertex {
+        // Overall attributes
         D data;                 // Data associated with the vertex
         K key;                  // Key of the vertex
+
+        // Attributes for BFS
         int distance;           // Distance from the source vertex during BFS
         K parent;               // Parent vertex key during BFS
         bool visited;           // Flag to mark if the vertex has been visited during BFS
-        K bfsSource;            // Variable to store the BFS source
+
+        // Attributes for DFS
         int discoveryTime;      // Discovery time of the vertex during DFS
         int finishTime;         // Finish time of the vertex during DFS
         K dfsParent;            // Parent vertex key during DFS
@@ -35,8 +40,12 @@ private:
 
 unordered_map<K, Vertex> vertices;                  // Dictionary: Keys -> Vertices
 unordered_map<K, vector<Vertex*>> adjList;          // Dictionary: Keys -> List of Adjacent Vertices
-int time;                                           // Global time variable
-void        dfs_helper      (K v) const             // Perform depth-first search (DFS) starting from vertex v
+
+K           bfsSource;                              // Variable to store the BFS source
+
+int         time;                                   // Global time variable
+void        dfs_helper      (K v);                  // Perform depth-first search (DFS) starting from vertex v
+void        dfs             (void);                 // Perform depth-first search (DFS) on the entire graph
 
 public:
             Graph           (vector<K> keys, vector<D> data, vector<vector<K>> edges);  // Constructor

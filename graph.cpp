@@ -29,7 +29,6 @@ template <typename K, typename D>
         v.distance = -1;
         v.parent = K();
         v.visited = false;
-        v.bfsSource = K();
         v.discoveryTime = int();
         v.finishTime = int();
         v.dfsParent = K();
@@ -47,7 +46,7 @@ template <typename K, typename D>
     }
 
     // Call DFS
-    dfs()
+    dfs();
 }
 
 //========================================================
@@ -86,7 +85,7 @@ bool        Graph<K, D>::reachable   (K u, K v)
     Vertex* vertX = get(v);         // Get vertex
     
     // BFS has already been performed with u as the source
-    if (vertX->bfsSource == u) {
+    if (bfsSource == u) {
         return vertX->distance != -1;   // Return if reachable from u
     }
     // BFS has not been performed or the source is different
@@ -108,7 +107,48 @@ bool        Graph<K, D>::reachable   (K u, K v)
 template <typename K, typename D>
 void        Graph<K, D>::bfs         (K s) 
 {
+    // Update last called source of BFS
+    bfsSource = s;
 
+    // Get pointer
+    Vertex* vertS = get(s);
+
+    // If key s does not exist, exit
+    if (vertS == nullptr) {
+        return;
+    }
+
+    // Update attributes of source s
+    vertS->visited = true;
+    vertS->distance = 0;
+    vertS->parent = K();        // I have problems with this, 
+                                // if we use K() to represent NULL, what if
+                                // there are vertices with key K()? 
+                                // How do we tell the difference?
+
+    // Initialize empty queue and enqueue s
+    queue<K> Q;
+    Q.push(s);
+
+    while (!Q.empty()){
+        // Dequeue and store in u
+        K u = Q.front();
+        Vertex* vertU = get(u);
+        Q.pop(); 
+
+        for (int i = 0; i < adjList[u].size(); i++) {
+            Vertex* neighbor = adjList[u][i];
+            
+            // Update attributes of vertices adjacent to u
+            if (!neighbor->visited) {
+                neighbor->visited = true;
+                neighbor->distance = vertU->distance + 1;
+                neighbor->parent = u;
+                Q.push(neighbor->key);
+            }
+    }
+    }
+    
 }
 
 //========================================================
@@ -138,7 +178,7 @@ void        Graph<K, D>::print_path  (K u, K v)
 // Return: string representation of edge from vertex with key u to vertex with key v
 //========================================================
 template<typename K, typename D>
-string      Graph<K, D>::edge_class     (K u, K v) const
+string      Graph<K, D>::edge_class     (K u, K v)
 {
     // Call DFS?
     // dfs()
@@ -181,7 +221,7 @@ string      Graph<K, D>::edge_class     (K u, K v) const
 // Return: None
 //========================================================
 template<typename K, typename D>
-void        Graph<K, D>::bfs_tree       (K s) const
+void        Graph<K, D>::bfs_tree       (K s) 
 {
 
 }
@@ -196,7 +236,7 @@ void        Graph<K, D>::bfs_tree       (K s) const
 // Return: None
 //========================================================
 template<typename K, typename D>
-void        Graph<K, D>::dfs_helper       (K v) const
+void        Graph<K, D>::dfs_helper       (K v) 
 {
     Vertex* vertV = get(v);
 
@@ -228,14 +268,14 @@ void        Graph<K, D>::dfs_helper       (K v) const
 // Return: None
 //========================================================
 template<typename K, typename D>
-void        Graph<K, D>::dfs       () const
+void        Graph<K, D>::dfs       () 
 {
     time = 0;   // Reset the global time variable
 
     // Perform DFS on all unvisited vertices
     for (auto& pair : vertices) {
         if (!pair.second.dfsVisited) {
-            dfs_visit(&pair.second);
+            //dfs_visit(&pair.second);
         }
     }
 }
