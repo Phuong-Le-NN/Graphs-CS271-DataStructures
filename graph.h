@@ -21,15 +21,22 @@ template <typename K, typename D>
 class Graph {
 private:
     struct Vertex {
-        D data;         // Data associated with the vertex
-        K key;          // Key of the vertex
-        int distance;   // Distance from the source vertex during BFS
-        K parent;       // Parent vertex key during BFS
-        bool visited;   // Flag to mark if the vertex has been visited during BFS
+        D data;                 // Data associated with the vertex
+        K key;                  // Key of the vertex
+        int distance;           // Distance from the source vertex during BFS
+        K parent;               // Parent vertex key during BFS
+        bool visited;           // Flag to mark if the vertex has been visited during BFS
+        K bfsSource;            // Variable to store the BFS source
+        int discoveryTime;      // Discovery time of the vertex during DFS
+        int finishTime;         // Finish time of the vertex during DFS
+        K dfsParent;            // Parent vertex key during DFS
+        bool dfsVisited;        // Flag to mark if the vertex has been visited during DFS
     };
 
 unordered_map<K, Vertex> vertices;                  // Dictionary: Keys -> Vertices
 unordered_map<K, vector<Vertex*>> adjList;          // Dictionary: Keys -> List of Adjacent Vertices
+int time;                                           // Global time variable
+void        dfs_helper      (K v) const             // Perform depth-first search (DFS) starting from vertex v
 
 public:
             Graph           (vector<K> keys, vector<D> data, vector<vector<K>> edges);  // Constructor
