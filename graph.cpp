@@ -34,6 +34,7 @@ template <typename K, typename D>
         v.dfsParent = -1;
         v.dfsVisited = false;
         vertices[keys[i]] = v;
+        vertices_list.push_back(keys[i]); // Append the key to vertices_list
     }
 
     // Build the adjacency list using the edges
@@ -195,15 +196,20 @@ void        Graph<K, D>::print_path  (K u, K v)
 template<typename K, typename D>
 string      Graph<K, D>::edge_class     (K u, K v)
 {
-    // Call DFS?
-    // dfs()
-
     // Get vertices
     Vertex* vertU = get(u);
     Vertex* vertV = get(v);
 
+    // Check if non-existent
+    if ( vertU == nullptr ||  vertV == nullptr){
+        return "no edge";
+    }
+
+    // Call DFS
+    //dfs();
+
     // Check if v is the DFS parent of u
-    if (vertU->dfsParent == vertV->key) {
+    if (vertU->dfsParent == vertV->key || vertV->dfsParent == vertU->key) {
         return "tree edge";
     }
 
@@ -213,18 +219,18 @@ string      Graph<K, D>::edge_class     (K u, K v)
     }
 
     // Check if v is visited before u and u is visited before v is finished
-    if (vertV->discoveryTime < vertU->discoveryTime && vertU->finishTime < vertV->finishTime) {
+    if (vertV->discoveryTime <= vertU->discoveryTime && vertU->finishTime <= vertV->finishTime) {
         return "back edge";
     }
 
     // Check if v is finished before u is visited or u is finished before v is visited
-    if (vertV->finishTime < vertU->discoveryTime || vertU->finishTime < vertV->discoveryTime) {
+    if (vertV->discoveryTime < vertU->discoveryTime && vertU->finishTime > vertV->finishTime) {
         return "cross edge";
     }
 
     // Else, there is no edge between u and v
     return "no edge";
-}     
+}
 
 //========================================================
 // bfs_tree
@@ -375,9 +381,9 @@ void        Graph<K, D>::dfs       ()
     time = 0; // Reset the global time variable
 
     // Perform DFS on all unvisited vertices
-    for (auto& pair : vertices) {
-        if (!pair.second.dfsVisited) {
-            dfs_helper(pair.first);
+    for (auto& key : vertices_list) {
+        if (!vertices[key].dfsVisited) {
+            dfs_helper(key);
         }
     }
 }
