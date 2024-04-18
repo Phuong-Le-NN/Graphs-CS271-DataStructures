@@ -123,7 +123,7 @@ void        Graph<K, D>::bfs         (K s)
     vertS->distance = 0;
     vertS->parent = K();        // I have problems with this, 
                                 // if we use K() to represent NULL, what if
-                                // there are vertices with key K()? 
+                                // there are vertices with key K()? //i don't think this is possible (phuong)
                                 // How do we tell the difference?
 
     // Initialize empty queue and enqueue s
@@ -164,7 +164,7 @@ void        Graph<K, D>::bfs         (K s)
 template<typename K, typename D>
 void        Graph<K, D>::print_path  (K u, K v) 
 {
-
+    
 }
 
 //========================================================
@@ -223,6 +223,93 @@ string      Graph<K, D>::edge_class     (K u, K v)
 template<typename K, typename D>
 void        Graph<K, D>::bfs_tree       (K s) 
 {
+    //clear bst tree in case bfs has been called before
+    if (bfsSource != K())
+    {
+        for (auto& pair : vertices)
+        {
+            Vertex* v = &pair.second;
+            v->distance = -1;
+            v->visited = false;
+            v->parent = K ();
+        }
+    }
+
+    //start to create bfs by assigning the source and get the src vertex
+    bfsSource = s;
+    Vertex* src = get(s);
+
+    if(!src)
+    {
+        cout << "source not found" << endl;
+        return;
+    }
+
+    //initiate the queue
+    queue <Vertex*> Q;
+
+    //change the source attribute as needed
+    src->visited = true;
+    src->distance = 0;
+    src->parent = K();
+
+    //string stream for printing the tree
+    stringstream stream;
+
+    //add the source key into the stream
+    stream << s;
+
+    //add the adj list of src to the queue Q while changing the attributes as needed
+    for (Vertex* v : adjList[s])
+    {
+        if (!v->visited)
+        {
+            v->visited = true;
+            v->parent = s;
+            v->distance = 1;
+            Q.push(v);
+        }
+    }
+
+    //level to track each line of the tree
+    int level = 0;
+
+    //do bfs as usual while adding and printing string stream
+    while (!Q.empty())
+    {
+        //take the current vertex
+        Vertex* u = Q.front();
+        Q.pop();
+
+        //check if the current vertex belong to the current level or the next level
+        if (u->distance != level) //change in distance means we are now looking at vertex at a new level
+        {
+            level++;
+            cout << stream.str() << endl; //before starting a new line of the tree we print out the last finsihed one
+            stream.str("");
+            stream << u->key;
+        }
+        else //if current level just add a space to separate this vertex key with the previous one
+        {
+            stream << " " << u->key;
+        }
+
+        //chenking adjacent vertex to add to the queue
+        for (Vertex* v : adjList[u->key])
+        {
+            if (!v->visited)
+            {
+                v->visited = true;
+                v->parent = u->key;
+                v->distance = u->distance + 1;
+                Q.push(v);
+            }
+        }
+    }
+
+    //cout the last level of the tree
+    cout << stream.str();
+
 
 }
 
