@@ -246,7 +246,7 @@ void        Graph<K, D>::bfs_tree       (K s)
             Vertex* v = &pair.second;
             v->distance = -1;
             v->visited = false;
-            v->parent = K ();
+            v->parent = -1;
         }
     }
 
