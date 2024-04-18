@@ -59,8 +59,7 @@ template <typename K, typename D>
 // Return: Pointer to the vertex corresponding to key k
 //========================================================
 template <typename K, typename D>
-typename    Graph<K, D>::
-Vertex*     Graph<K, D>::get        (K key) 
+typename    Graph<K, D>::Vertex*     Graph<K, D>::get        (K key) 
 {
     // Find key in dictionary
     if (vertices.find(key) != vertices.end()) {
