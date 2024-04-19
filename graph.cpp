@@ -18,8 +18,8 @@
 // Post-condition: 
 // Return: 
 //========================================================
-template <typename K, typename D>
-            Graph<K, D>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
+template <typename D, typename K>
+            Graph<D,K>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
 {
     // Create vertices and store them in the vertices map
     for (int i = 0; i < keys.size(); i++) {
@@ -68,8 +68,8 @@ template <typename K, typename D>
 // Post-condition: 
 // Return: Pointer to the vertex corresponding to key k
 //========================================================
-template <typename K, typename D>
-typename    Graph<K, D>::Vertex*     Graph<K, D>::get        (K key) 
+template <typename D, typename K>
+typename    Graph<D,K>::Vertex*     Graph<D,K>::get        (K key) 
 {
     // Find key in dictionary
     if (vertices.find(key) != vertices.end()) {
@@ -88,8 +88,8 @@ typename    Graph<K, D>::Vertex*     Graph<K, D>::get        (K key)
 // Post-condition: 
 // Return: Boolean indicating if vertex with key v is reachable from vertex with key u
 //========================================================
-template <typename K, typename D>
-bool        Graph<K, D>::reachable   (K u, K v)
+template <typename D, typename K>
+bool        Graph<D,K>::reachable   (K u, K v)
 {
     Vertex* vertX = get(v);             // Get vertex
 
@@ -113,8 +113,8 @@ bool        Graph<K, D>::reachable   (K u, K v)
 // Post-condition: 
 // Return: None
 //========================================================
-template <typename K, typename D>
-void        Graph<K, D>::bfs         (K s) 
+template <typename D, typename K>
+void        Graph<D,K>::bfs         (K s) 
 {
     // bfs already performed with key s
     if (bfsSource == s) {
@@ -178,8 +178,8 @@ void        Graph<K, D>::bfs         (K s)
 // Post-condition: 
 // Return: None
 //========================================================
-template<typename K, typename D>
-void        Graph<K, D>::print_path  (K u, K v) 
+template<typename D, typename K>
+void        Graph<D,K>::print_path  (K u, K v) 
 {
     // Check the source before calling bfs
     if (bfsSource != u) {
@@ -227,8 +227,8 @@ void        Graph<K, D>::print_path  (K u, K v)
 // Post-condition: 
 // Return: string representation of edge from vertex with key u to vertex with key v
 //========================================================
-template<typename K, typename D>
-string      Graph<K, D>::edge_class     (K u, K v)
+template<typename D, typename K>
+string      Graph<D,K>::edge_class     (K u, K v)
 {
     // Get vertices
     Vertex* vertU = get(u);
@@ -272,8 +272,8 @@ string      Graph<K, D>::edge_class     (K u, K v)
 // Post-condition: 
 // Return: None
 //========================================================
-template<typename K, typename D>
-void        Graph<K, D>::bfs_tree       (K s) 
+template<typename D, typename K>
+void        Graph<D,K>::bfs_tree       (K s) 
 {
     // Clear BFS tree in case BFS has been called before
     if (bfsSource != K())
@@ -371,8 +371,8 @@ void        Graph<K, D>::bfs_tree       (K s)
 // Post-condition: 
 // Return: None
 //========================================================
-template<typename K, typename D>
-void        Graph<K, D>::dfs_helper       (K v) 
+template<typename D, typename K>
+void        Graph<D,K>::dfs_helper       (K v) 
 {
     Vertex* vertV = get(v);
 
@@ -403,8 +403,8 @@ void        Graph<K, D>::dfs_helper       (K v)
 // Post-condition: 
 // Return: None
 //========================================================
-template<typename K, typename D>
-void        Graph<K, D>::dfs       () 
+template<typename D, typename K>
+void        Graph<D,K>::dfs       () 
 {
     time = 0; // Reset the global time variable
 

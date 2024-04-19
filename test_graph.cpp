@@ -61,6 +61,56 @@ void test_get(Graph<string, string> *G)
     }
 }
 
+void test_get()
+{
+    try
+    {
+        // KEY INTEGERS DATA STRINGS
+        vector<int> keys = {-1,0,1};
+        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
+
+        Graph<string, int> G(keys, data, edges);
+
+        if (G.get(-1) == nullptr || G.get(-1)->data != "aryah")
+        {
+            cout << "Incorrect result getting vertex \"-1\"" << endl;
+        }
+        if (G.get(2) != nullptr)
+        {
+            cout << "Incorrect result getting non-existant vertex \"2\"" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY FLOATS DATA CHARACTERS
+        vector<float> keys = {-1.1,0.1,1.1};
+        vector<char> data = {'a', 'l', 'p'};
+        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{}}; 
+
+        Graph<char, float> G(keys, data, edges);
+
+        if (G.get(-1.1) == nullptr || G.get(-1.1)->data != 'a')
+        {
+            cout << "Incorrect result getting vertex \"-1.1\"" << endl;
+        }
+        if (G.get(2.1) != nullptr)
+        {
+            cout << "Incorrect result getting non-existant vertex \"2.1\"" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
+}
+
 void test_reachable(Graph<string, string> *G)
 {
     try
@@ -72,11 +122,11 @@ void test_reachable(Graph<string, string> *G)
         if (!G->reachable("X", "W"))
         {
             cout << "Incorrectly identified \"W\" as unreachable from \"X\"" << endl;
-        }/*
+        }
         if (G->reachable("S", "A"))
         {
             cout << "Incorrectly identified non-existant vetex \"A\" as reachable from \"S\"" << endl;
-        }*/
+        }
     }
     catch (exception &e)
     {
@@ -183,7 +233,7 @@ void test_bfs_tree(Graph<string, string> *G)
 
 int main()
 {
-
+    // Test case passed in by text file (From test_graph_example.cpp)
     Graph<string, string> *G = generate_graph("graph_description.txt");
     test_get(G);
     test_reachable(G);
@@ -192,9 +242,14 @@ int main()
     test_edge_class(G);
     test_bfs_tree(G);
 
+    // Hard-coded test case
+    test_get();
+
     cout << "Testing completed" << endl;
 
     delete G;
 
     return 0;
 }
+
+

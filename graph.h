@@ -18,7 +18,7 @@
 
 using namespace std;
 
-template <typename K, typename D>
+template <typename D, typename K>
 class Graph {
 private:
     struct Vertex {
