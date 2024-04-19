@@ -179,6 +179,117 @@ void test_reachable(Graph<string, string> *G)
     }
 }
 
+void test_reachable()
+{
+    try
+    {
+        // KEY INTEGERS DATA STRINGS
+        vector<int> keys = {-1,0,1};
+        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
+
+        Graph<string, int> G(keys, data, edges);
+
+        if (!G.reachable(-1, 1))
+        {
+            cout << "Incorrectly identified adjacent vertex 1 as unreachable from -1" << endl;
+        }
+        if (!G.reachable(0, -1))
+        {
+            cout << "Incorrectly identified -1 as unreachable from 0" << endl;
+        }
+        if (G.reachable(1,2))
+        {
+            cout << "Incorrectly identified non-existant vetex 2 as reachable from 1" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY FLOATS DATA CHARACTERS
+        vector<float> keys = {-1.1,0.1,1.1};
+        vector<char> data = {'a', 'l', 'p'};
+        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{}}; 
+
+        Graph<char, float> G(keys, data, edges);
+
+        if (!G.reachable(-1.1, 1.1))
+        {
+            cout << "Incorrectly identified adjacent vertex 1.1 as unreachable from -1.1" << endl;
+        }
+        if (!G.reachable(0.1, -1.1))
+        {
+            cout << "Incorrectly identified -1.1 as unreachable from 0.1" << endl;
+        }
+        if (G.reachable(1.1,2.1))
+        {
+            cout << "Incorrectly identified non-existant vetex 2.1 as reachable from 1.1" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY CHARACTERS DATA FLOATS
+        vector<char> keys = {'a','l','p'};
+        vector<float> data = {-1.1, 0.1, 1.1};
+        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{}}; 
+
+        Graph<float, char> G(keys, data, edges);
+
+        if (!G.reachable('a', 'p'))
+        {
+            cout << "Incorrectly identified adjacent vertex \'p\' as unreachable from \'a\'" << endl;
+        }
+        if (!G.reachable('l', 'p'))
+        {
+            cout << "Incorrectly identified \'l\' as unreachable from \'p\'" << endl;
+        }
+        if (G.reachable('l','b'))
+        {
+            cout << "Incorrectly identified non-existant vetex \'b\' as reachable from \'l\'" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY STRINGS DATA INTEGERS
+        vector<string> keys = {"aryah","lam","phuong"};
+        vector<int> data = {-1, 0, 1};
+        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}}; 
+
+        Graph<int, string> G(keys, data, edges);
+
+        if (!G.reachable("aryah", "phuong"))
+        {
+            cout << "Incorrectly identified adjacent vertex \"phuong\" as unreachable from \"aryah\"" << endl;
+        }
+        if (!G.reachable("lam", "phuong"))
+        {
+            cout << "Incorrectly identified \"lam\" as unreachable from \"phuong\"" << endl;
+        }
+        if (G.reachable("lam","casey"))
+        {
+            cout << "Incorrectly identified non-existant vetex \"lam\" as reachable from \"casey\"" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
 void test_bfs(Graph<string, string> *G)
 {
     try
@@ -289,6 +400,8 @@ int main()
 
     // Hard-coded test case
     test_get();
+    test_reachable();
+
 
     cout << "Testing completed" << endl;
 
