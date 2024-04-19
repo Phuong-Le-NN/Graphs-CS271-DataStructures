@@ -40,6 +40,7 @@ private:
 
 unordered_map<K, Vertex> vertices;                  // Dictionary: Keys -> Vertices
 unordered_map<K, vector<Vertex*>> adjList;          // Dictionary: Keys -> List of Adjacent Vertices
+vector<K> vertices_list;                            // List of vertex keys in the order they were added
 
 K           bfsSource;                              // Variable to store the BFS source
 

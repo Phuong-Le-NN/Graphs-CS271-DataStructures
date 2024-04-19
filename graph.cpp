@@ -27,13 +27,14 @@ template <typename K, typename D>
         v.key = keys[i];
         v.data = data[i];
         v.distance = -1;
-        v.parent = K();
+        v.parent = -1;
         v.visited = false;
         v.discoveryTime = int();
         v.finishTime = int();
-        v.dfsParent = K();
+        v.dfsParent = -1;
         v.dfsVisited = false;
         vertices[keys[i]] = v;
+        vertices_list.push_back(keys[i]); // Append the key to vertices_list
     }
 
     // Build the adjacency list using the edges
@@ -59,8 +60,7 @@ template <typename K, typename D>
 // Return: Pointer to the vertex corresponding to key k
 //========================================================
 template <typename K, typename D>
-typename    Graph<K, D>::
-Vertex*     Graph<K, D>::get        (K key) 
+typename    Graph<K, D>::Vertex*     Graph<K, D>::get        (K key) 
 {
     // Find key in dictionary
     if (vertices.find(key) != vertices.end()) {
@@ -83,7 +83,12 @@ template <typename K, typename D>
 bool        Graph<K, D>::reachable   (K u, K v)
 {
     Vertex* vertX = get(v);         // Get vertex
-    
+
+    // If key s does not exist, exit
+    if (vertX == nullptr) {
+        return false;
+    }
+
     // BFS has already been performed with u as the source
     if (bfsSource == u) {
         return vertX->distance != -1;   // Return if reachable from u
@@ -107,8 +112,10 @@ bool        Graph<K, D>::reachable   (K u, K v)
 template <typename K, typename D>
 void        Graph<K, D>::bfs         (K s) 
 {
-    // Update last called source of BFS
-    bfsSource = s;
+    // bfs already performed with key s
+    if (bfsSource == s) {
+        return;
+    }
 
     // Get pointer
     Vertex* vertS = get(s);
@@ -118,12 +125,19 @@ void        Graph<K, D>::bfs         (K s)
         return;
     }
 
+    // Reset all values in the vertices
+    for (auto& pair : vertices) {
+        pair.second.visited = false;
+        pair.second.distance = -1;
+        pair.second.parent = -1;
+    }
+
     // Update attributes of source s
     vertS->visited = true;
     vertS->distance = 0;
-    vertS->parent = K();        // I have problems with this, 
+    vertS->parent = -1;        // I have problems with this, 
                                 // if we use K() to represent NULL, what if
-                                // there are vertices with key K()? //i don't think this is possible (phuong)
+                                // there are vertices with key s? //i don't think this is possible (phuong)
                                 // How do we tell the difference?
 
     // Initialize empty queue and enqueue s
@@ -146,9 +160,11 @@ void        Graph<K, D>::bfs         (K s)
                 neighbor->parent = u;
                 Q.push(neighbor->key);
             }
+        }
     }
-    }
-    
+
+    // Update last called source of BFS
+    bfsSource = s;
 }
 
 //========================================================
@@ -207,15 +223,20 @@ void        Graph<K, D>::print_path  (K u, K v)
 template<typename K, typename D>
 string      Graph<K, D>::edge_class     (K u, K v)
 {
-    // Call DFS?
-    // dfs()
-
     // Get vertices
     Vertex* vertU = get(u);
     Vertex* vertV = get(v);
 
+    // Check if non-existent
+    if ( vertU == nullptr ||  vertV == nullptr){
+        return "no edge";
+    }
+
+    // Call DFS
+    //dfs();
+
     // Check if v is the DFS parent of u
-    if (vertU->dfsParent == vertV->key) {
+    if (vertU->dfsParent == vertV->key || vertV->dfsParent == vertU->key) {
         return "tree edge";
     }
 
@@ -225,18 +246,18 @@ string      Graph<K, D>::edge_class     (K u, K v)
     }
 
     // Check if v is visited before u and u is visited before v is finished
-    if (vertV->discoveryTime < vertU->discoveryTime && vertU->finishTime < vertV->finishTime) {
+    if (vertV->discoveryTime <= vertU->discoveryTime && vertU->finishTime <= vertV->finishTime) {
         return "back edge";
     }
 
     // Check if v is finished before u is visited or u is finished before v is visited
-    if (vertV->finishTime < vertU->discoveryTime || vertU->finishTime < vertV->discoveryTime) {
+    if (vertV->discoveryTime < vertU->discoveryTime && vertU->finishTime > vertV->finishTime) {
         return "cross edge";
     }
 
     // Else, there is no edge between u and v
     return "no edge";
-}     
+}
 
 //========================================================
 // bfs_tree
@@ -258,7 +279,7 @@ void        Graph<K, D>::bfs_tree       (K s)
             Vertex* v = &pair.second;
             v->distance = -1;
             v->visited = false;
-            v->parent = K ();
+            v->parent = -1;
         }
     }
 
@@ -360,11 +381,11 @@ void        Graph<K, D>::dfs_helper       (K v)
     vertV->discoveryTime = time;
 
     // Visit all unvisited neighbors of the current vertex
-    for (int i = 0; i < adjList[vertV->key].size(); i++) {
+    for (size_t i = 0; i < adjList[vertV->key].size(); i++) {
         Vertex* neighbor = adjList[vertV->key][i];
         if (!neighbor->dfsVisited) {
             neighbor->dfsParent = vertV->key;
-            dfs_helper(neighbor);
+            dfs_helper(neighbor->key);
         }
     }
 
@@ -384,12 +405,12 @@ void        Graph<K, D>::dfs_helper       (K v)
 template<typename K, typename D>
 void        Graph<K, D>::dfs       () 
 {
-    time = 0;   // Reset the global time variable
+    time = 0; // Reset the global time variable
 
     // Perform DFS on all unvisited vertices
-    for (auto& pair : vertices) {
-        if (!pair.second.dfsVisited) {
-            //dfs_visit(&pair.second);
+    for (auto& key : vertices_list) {
+        if (!vertices[key].dfsVisited) {
+            dfs_helper(key);
         }
     }
 }
