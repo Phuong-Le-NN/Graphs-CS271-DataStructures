@@ -180,34 +180,40 @@ void        Graph<K, D>::bfs         (K s)
 template<typename K, typename D>
 void        Graph<K, D>::print_path  (K u, K v) 
 {
-    cout << "print_path ran" << endl;
+    //check the source before calling bfs
     if (bfsSource != u)
     {
         bfs(u);
     }
 
-    if (!reachable(u,v))
-    {
-        return;
-    }
-
+    //we get the vertex with key v to trace along the parents to get back to u
     Vertex* x = get(get(v)->parent);
+
+    //we intitiate the stream to convert the keys on the path and print out later
     stringstream stream;
+
+    //putting the last key in the path into the stream
     stream << v;
     string output = stream.str();
+
+    //do the while loop to trace the path backward from v to u
     while (x != nullptr && x->key != u)
     {
         stream.str("");
         stream << x->key;
-        cout << stream.str();
         output = stream.str() + " -> " + output;
+        x = get(x->parent);
     }
 
-    stream.str("");
-    stream << x->key;
-    output = stream.str() + " -> " + output;
+    //if v is reachable from u, x would not be null
+    if (x != nullptr)
+    {
+        stream.str("");
+        stream << x->key;
+        output = stream.str() + " -> " + output;
 
-    cout << output <<endl;
+        cout <<output;
+    }
 }
 
 //========================================================
