@@ -108,7 +108,52 @@ void test_get()
     {
         std::cerr << e.what() << '\n';
     }
-    
+
+    try
+    {
+        // KEY CHARACTERS DATA FLOATS
+        vector<char> keys = {'a','l','p'};
+        vector<float> data = {-1.1, 0.1, 1.1};
+        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{}}; 
+
+        Graph<float, char> G(keys, data, edges);
+
+        if (G.get('a') == nullptr || G.get('a')->data > -1 && G.get('a')->data < -1.2)
+        {
+            cout << "Incorrect result getting vertex \'a\'" << endl;
+        }
+        if (G.get('b') != nullptr)
+        {
+            cout << "Incorrect result getting non-existant vertex \"b\"" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY STRINGS DATA INTEGERS
+        vector<string> keys = {"aryah","lam","phuong"};
+        vector<int> data = {-1, 0, 1};
+        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}}; 
+
+        Graph<int, string> G(keys, data, edges);
+
+        if (G.get("aryah") == nullptr || G.get("aryah")->data != -1)
+        {
+            cout << "Incorrect result getting vertex \"aryah\"" << endl;
+        }
+        if (G.get("casey") != nullptr)
+        {
+            cout << "Incorrect result getting non-existant vertex \"aryah\"" << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 void test_reachable(Graph<string, string> *G)
