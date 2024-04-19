@@ -231,6 +231,55 @@ void test_bfs_tree(Graph<string, string> *G)
     }
 }
 
+void test_bfs_tree()
+{
+    // KEY FLOAT DATA STRINGS
+    try
+    {
+        vector<float> keys = {-1.5,0.5,1.5};
+        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<vector<float>> edges = {{-1.5,0.5,1.5},{-1.5,1.5},{}}; 
+
+        Graph<string, float> G(keys, data, edges);
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.bfs_tree(-1.5);
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "-1.5\n0.5 1.5")
+        {
+            cout << "Incorrect bfs tree. Expected : \n-1\n0 1 \n but got :\n"
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+
+    // KEY INTEGERS DATA STRINGS
+    try
+    {
+        vector<int> keys = {-1,0,1};
+        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
+
+        Graph<string, int> G(keys, data, edges);
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.bfs_tree(-1.5);
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "-1\n0 1")
+        {
+            cout << "Incorrect bfs tree. Expected : \n-1\n0 1 \n but got :\n"
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+}
+
 int main()
 {
     // Test case passed in by text file (From test_graph_example.cpp)
@@ -244,6 +293,7 @@ int main()
 
     // Hard-coded test case
     test_get();
+    test_bfs_tree();
 
     cout << "Testing completed" << endl;
 
