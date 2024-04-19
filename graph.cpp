@@ -164,7 +164,34 @@ void        Graph<K, D>::bfs         (K s)
 template<typename K, typename D>
 void        Graph<K, D>::print_path  (K u, K v) 
 {
-    
+    cout << "print_path ran" << endl;
+    if (bfsSource != u)
+    {
+        bfs(u);
+    }
+
+    if (!reachable(u,v))
+    {
+        return;
+    }
+
+    Vertex* x = get(get(v)->parent);
+    stringstream stream;
+    stream << v;
+    string output = stream.str();
+    while (x != nullptr && x->key != u)
+    {
+        stream.str("");
+        stream << x->key;
+        cout << stream.str();
+        output = stream.str() + " -> " + output;
+    }
+
+    stream.str("");
+    stream << x->key;
+    output = stream.str() + " -> " + output;
+
+    cout << output <<endl;
 }
 
 //========================================================
