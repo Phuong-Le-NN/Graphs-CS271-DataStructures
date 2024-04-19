@@ -23,27 +23,36 @@ template <typename K, typename D>
 {
     // Create vertices and store them in the vertices map
     for (int i = 0; i < keys.size(); i++) {
+        // Overall attributes
         Vertex v; 
         v.key = keys[i];
         v.data = data[i];
+
+        // Update attributes for BFS
         v.distance = -1;
-        v.parent = -1;
+        v.parent = nullptr;
         v.visited = false;
+
+        // Update attributes for DFS
         v.discoveryTime = int();
         v.finishTime = int();
-        v.dfsParent = -1;
+        v.dfsParent = nullptr;
         v.dfsVisited = false;
+
+        // Update unordered map vertices - Map keys with vertices
         vertices[keys[i]] = v;
-        vertices_list.push_back(keys[i]); // Append the key to vertices_list
+
+        // Append the key to vertices_list
+        vertices_list.push_back(keys[i]); 
     }
 
-    // Build the adjacency list using the edges
+    // Update unordered map adjList - Map key with adjacency list of vertex pointers
     for (int i = 0; i < keys.size(); i++) {
-        vector<Vertex*> neighbors;  // Initialize adjacency list
+        vector<Vertex*> neighbors;                          // Initialize individual adjacency list
         for (int j = 0; j < edges[i].size(); j++) {
             neighbors.push_back(&vertices[edges[i][j]]);
         }
-        adjList[keys[i]] = neighbors;   // Map adjacency list to vertex key
+        adjList[keys[i]] = neighbors;                       // Map adjacency list to vertex key
     }
 
     // Call DFS
@@ -82,22 +91,17 @@ typename    Graph<K, D>::Vertex*     Graph<K, D>::get        (K key)
 template <typename K, typename D>
 bool        Graph<K, D>::reachable   (K u, K v)
 {
-    Vertex* vertX = get(v);         // Get vertex
+    Vertex* vertX = get(v);             // Get vertex
 
     // If key s does not exist, exit
     if (vertX == nullptr) {
         return false;
     }
-
-    // BFS has already been performed with u as the source
-    if (bfsSource == u) {
-        return vertX->distance != -1;   // Return if reachable from u
-    }
     // BFS has not been performed or the source is different
-    else {
+    if (bfsSource != u) {
         bfs(u);
-        return vertX->distance != -1;   // Return if reachable from u
     }
+    return vertX->distance != -1;       // Return if reachable from u
 }
 
 //========================================================
@@ -117,7 +121,7 @@ void        Graph<K, D>::bfs         (K s)
         return;
     }
 
-    // Get pointer
+    // Get vertex pointer
     Vertex* vertS = get(s);
 
     // If key s does not exist, exit
@@ -129,16 +133,13 @@ void        Graph<K, D>::bfs         (K s)
     for (auto& pair : vertices) {
         pair.second.visited = false;
         pair.second.distance = -1;
-        pair.second.parent = -1;
+        pair.second.parent = nullptr;
     }
 
     // Update attributes of source s
     vertS->visited = true;
     vertS->distance = 0;
-    vertS->parent = -1;        // I have problems with this, 
-                                // if we use K() to represent NULL, what if
-                                // there are vertices with key s? //i don't think this is possible (phuong)
-                                // How do we tell the difference?
+    vertS->parent = nullptr;
 
     // Initialize empty queue and enqueue s
     queue<K> Q;
@@ -157,7 +158,7 @@ void        Graph<K, D>::bfs         (K s)
             if (!neighbor->visited) {
                 neighbor->visited = true;
                 neighbor->distance = vertU->distance + 1;
-                neighbor->parent = u;
+                neighbor->parent = vertU;
                 Q.push(neighbor->key);
             }
         }
@@ -180,34 +181,34 @@ void        Graph<K, D>::bfs         (K s)
 template<typename K, typename D>
 void        Graph<K, D>::print_path  (K u, K v) 
 {
-    //check the source before calling bfs
-    if (bfsSource != u)
-    {
+    // Check the source before calling bfs
+    if (bfsSource != u) {
         bfs(u);
     }
 
-    //we get the vertex with key v to trace along the parents to get back to u
-    Vertex* x = get(get(v)->parent);
+    // Get the vertex with key v to trace along the parents to get back to u
+    Vertex* x = get(v)->parent;
 
-    //we intitiate the stream to convert the keys on the path and print out later
+    // Intitiate the stream to convert the keys on the path and print out later
     stringstream stream;
 
-    //putting the last key in the path into the stream
+    // Put the last key in the path into the stream
     stream << v;
     string output = stream.str();
 
-    //do the while loop to trace the path backward from v to u
+    // Trace the path backward from v to u
     while (x != nullptr && x->key != u)
     {
         stream.str("");
         stream << x->key;
         output = stream.str() + " -> " + output;
-        x = get(x->parent);
+        x = x->parent;
     }
 
-    //if v is reachable from u, x would not be null
+    // If v is reachable from u, x would not be null
     if (x != nullptr)
     {
+        // Add last vertex key
         stream.str("");
         stream << x->key;
         output = stream.str() + " -> " + output;
@@ -238,11 +239,8 @@ string      Graph<K, D>::edge_class     (K u, K v)
         return "no edge";
     }
 
-    // Call DFS
-    //dfs();
-
     // Check if v is the DFS parent of u
-    if (vertU->dfsParent == vertV->key || vertV->dfsParent == vertU->key) {
+    if (vertU->dfsParent == vertV || vertV->dfsParent == vertU) {
         return "tree edge";
     }
 
@@ -277,7 +275,7 @@ string      Graph<K, D>::edge_class     (K u, K v)
 template<typename K, typename D>
 void        Graph<K, D>::bfs_tree       (K s) 
 {
-    //clear bst tree in case bfs has been called before
+    // Clear BFS tree in case BFS has been called before
     if (bfsSource != K())
     {
         for (auto& pair : vertices)
@@ -285,86 +283,83 @@ void        Graph<K, D>::bfs_tree       (K s)
             Vertex* v = &pair.second;
             v->distance = -1;
             v->visited = false;
-            v->parent = -1;
+            v->parent = nullptr;
         }
     }
 
-    //start to create bfs by assigning the source and get the src vertex
+    // Start to create bfs by updating BFS source and get the src vertex
     bfsSource = s;
     Vertex* src = get(s);
 
-    if(!src)
-    {
-        cout << "source not found" << endl;
+    // If source not found, exit
+    if(!src) {
         return;
     }
 
-    //initiate the queue
+    // Initialize the queue
     queue <Vertex*> Q;
 
-    //change the source attribute as needed
+    // Change the source attribute as needed
     src->visited = true;
     src->distance = 0;
-    src->parent = K();
+    src->parent = nullptr;
 
-    //string stream for printing the tree
+    // String stream for printing the tree
     stringstream stream;
 
-    //add the source key into the stream
+    // Add the source key into the stream
     stream << s;
 
-    //add the adj list of src to the queue Q while changing the attributes as needed
+    // Add the adj list of src to the queue Q while changing the attributes as needed
     for (Vertex* v : adjList[s])
     {
         if (!v->visited)
         {
             v->visited = true;
-            v->parent = s;
+            v->parent = src;
             v->distance = 1;
             Q.push(v);
         }
     }
 
-    //level to track each line of the tree
+    // Level to track each line of the tree
     int level = 0;
 
-    //do bfs as usual while adding and printing string stream
+    // Execute BFS as usual while adding and printing string stream
     while (!Q.empty())
     {
-        //take the current vertex
+        // Take the current vertex
         Vertex* u = Q.front();
         Q.pop();
 
-        //check if the current vertex belong to the current level or the next level
-        if (u->distance != level) //change in distance means we are now looking at vertex at a new level
+        // Check if the current vertex belong to the current level or the next level
+        if (u->distance != level) // Change in distance means we are now looking at vertex at a new level
         {
             level++;
-            cout << stream.str() << endl; //before starting a new line of the tree we print out the last finsihed one
+            cout << stream.str() << endl; // Before starting a new line of the tree we print out the last finsihed one
             stream.str("");
             stream << u->key;
         }
-        else //if current level just add a space to separate this vertex key with the previous one
+        else // If current level just add a space to separate this vertex key with the previous one
         {
             stream << " " << u->key;
         }
 
-        //chenking adjacent vertex to add to the queue
+        // Check adjacent vertex to add to the queue
         for (Vertex* v : adjList[u->key])
         {
             if (!v->visited)
             {
                 v->visited = true;
-                v->parent = u->key;
+                v->parent = u;
                 v->distance = u->distance + 1;
                 Q.push(v);
             }
         }
     }
 
-    //cout the last level of the tree
+    // Print the last level of the tree
     cout << stream.str();
-
-
 }
 
 //========================================================
@@ -390,7 +385,7 @@ void        Graph<K, D>::dfs_helper       (K v)
     for (size_t i = 0; i < adjList[vertV->key].size(); i++) {
         Vertex* neighbor = adjList[vertV->key][i];
         if (!neighbor->dfsVisited) {
-            neighbor->dfsParent = vertV->key;
+            neighbor->dfsParent = vertV;
             dfs_helper(neighbor->key);
         }
     }

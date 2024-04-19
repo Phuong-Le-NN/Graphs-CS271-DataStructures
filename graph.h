@@ -28,13 +28,13 @@ private:
 
         // Attributes for BFS
         int distance;           // Distance from the source vertex during BFS
-        K parent;               // Parent vertex key during BFS
+        Vertex* parent;         // Parent vertex key during BFS
         bool visited;           // Flag to mark if the vertex has been visited during BFS
 
         // Attributes for DFS
         int discoveryTime;      // Discovery time of the vertex during DFS
         int finishTime;         // Finish time of the vertex during DFS
-        K dfsParent;            // Parent vertex key during DFS
+        Vertex* dfsParent;      // Parent vertex key during DFS
         bool dfsVisited;        // Flag to mark if the vertex has been visited during DFS
     };
 
