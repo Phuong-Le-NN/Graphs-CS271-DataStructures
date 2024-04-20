@@ -188,6 +188,12 @@ void        Graph<D,K>::print_path  (K u, K v)
 
     // Get the vertex with key v to trace along the parents to get back to u
     Vertex* x = get(v)->parent;
+    Vertex* y = get(u)->parent;
+
+    // If key u or key v does not exist, exit
+    if (x == nullptr || y == nullptr) {
+        return;
+    }
 
     // Intitiate the stream to convert the keys on the path and print out later
     stringstream stream;

@@ -61,97 +61,109 @@ void test_get(Graph<string, string> *G)
     }
 }
 
-void test_get()
-{
-    try
-    {
+void test_get() {
+    try {
         // KEY INTEGERS DATA STRINGS
-        vector<int> keys = {-1,0,1};
+        vector<int> keys = {-1, 0, 1};
         vector<string> data = {"aryah", "lam", "phuong"};
-        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
-
+        vector<vector<int>> edges = {{-1, 0, 1}, {-1, 1}, {}};
         Graph<string, int> G(keys, data, edges);
 
-        if (G.get(-1) == nullptr || G.get(-1)->data != "aryah")
-        {
+        // Test getting an existing vertex
+        if (G.get(-1) == nullptr || G.get(-1)->data != "aryah") {
             cout << "Incorrect result getting vertex \"-1\"" << endl;
         }
-        if (G.get(2) != nullptr)
-        {
-            cout << "Incorrect result getting non-existant vertex \"2\"" << endl;
+
+        // Test getting a non-existent vertex
+        if (G.get(2) != nullptr) {
+            cout << "Incorrect result getting non-existent vertex \"2\"" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test getting a vertex in an empty graph
+        Graph<string, int> emptyGraph({}, {}, {});
+        if (emptyGraph.get(0) != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY FLOATS DATA CHARACTERS
-        vector<float> keys = {-1.1,0.1,1.1};
+        vector<float> keys = {-1.1, 0.1, 1.1};
         vector<char> data = {'a', 'l', 'p'};
-        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{}}; 
-
+        vector<vector<float>> edges = {{-1.1, 0.1, 1.1}, {-1.1, 1.1}, {}};
         Graph<char, float> G(keys, data, edges);
 
-        if (G.get(-1.1) == nullptr || G.get(-1.1)->data != 'a')
-        {
+        // Test getting an existing vertex
+        if (G.get(-1.1) == nullptr || G.get(-1.1)->data != 'a') {
             cout << "Incorrect result getting vertex \"-1.1\"" << endl;
         }
-        if (G.get(2.1) != nullptr)
-        {
-            cout << "Incorrect result getting non-existant vertex \"2.1\"" << endl;
+
+        // Test getting a non-existent vertex
+        if (G.get(2.1) != nullptr) {
+            cout << "Incorrect result getting non-existent vertex \"2.1\"" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test getting a vertex in an empty graph
+        Graph<char, float> emptyGraph({}, {}, {});
+        if (emptyGraph.get(0) != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY CHARACTERS DATA FLOATS
-        vector<char> keys = {'a','l','p'};
+        vector<char> keys = {'a', 'l', 'p'};
         vector<float> data = {-1.1, 0.1, 1.1};
-        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{}}; 
-
+        vector<vector<char>> edges = {{'a', 'l', 'p'}, {'a', 'p'}, {}};
         Graph<float, char> G(keys, data, edges);
 
-        if (G.get('a') == nullptr || G.get('a')->data > -1 && G.get('a')->data < -1.2)
-        {
-            cout << "Incorrect result getting vertex \'a\'" << endl;
+        // Test getting an existing vertex
+        if (G.get('a') == nullptr || G.get('a')->data < -1.2 || G.get('a')->data > -1.0) {
+            cout << "Incorrect result getting vertex 'a'" << endl;
         }
-        if (G.get('b') != nullptr)
-        {
-            cout << "Incorrect result getting non-existant vertex \"b\"" << endl;
+
+        // Test getting a non-existent vertex
+        if (G.get('b') != nullptr) {
+            cout << "Incorrect result getting non-existent vertex 'b'" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test getting a vertex in an empty graph
+        Graph<float, char> emptyGraph({}, {}, {});
+        if (emptyGraph.get(0) != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY STRINGS DATA INTEGERS
-        vector<string> keys = {"aryah","lam","phuong"};
+        vector<string> keys = {"aryah", "lam", "phuong"};
         vector<int> data = {-1, 0, 1};
-        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}}; 
-
+        vector<vector<string>> edges = {{"aryah", "lam", "phuong"}, {"aryah", "phuong"}, {}};
         Graph<int, string> G(keys, data, edges);
 
-        if (G.get("aryah") == nullptr || G.get("aryah")->data != -1)
-        {
+        // Test getting an existing vertex
+        if (G.get("aryah") == nullptr || G.get("aryah")->data != -1) {
             cout << "Incorrect result getting vertex \"aryah\"" << endl;
         }
-        if (G.get("casey") != nullptr)
-        {
-            cout << "Incorrect result getting non-existant vertex \"aryah\"" << endl;
+
+        // Test getting a non-existent vertex
+        if (G.get("casey") != nullptr) {
+            cout << "Incorrect result getting non-existent vertex \"casey\"" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test getting a vertex in an empty graph
+        Graph<int, string> emptyGraph({}, {}, {});
+        if (emptyGraph.get("lam") != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 }
@@ -179,113 +191,130 @@ void test_reachable(Graph<string, string> *G)
     }
 }
 
-void test_reachable()
-{
-    try
-    {
+void test_reachable() {
+    try {
         // KEY INTEGERS DATA STRINGS
-        vector<int> keys = {-1,0,1};
+        vector<int> keys = {-1, 0, 1};
         vector<string> data = {"aryah", "lam", "phuong"};
-        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
-
+        vector<vector<int>> edges = {{-1, 0, 1}, {-1, 1}, {}};
         Graph<string, int> G(keys, data, edges);
 
-        if (!G.reachable(-1, 1))
-        {
+        // Test reachability between adjacent vertices
+        if (!G.reachable(-1, 1)) {
             cout << "Incorrectly identified adjacent vertex 1 as unreachable from -1" << endl;
         }
-        if (!G.reachable(0, -1))
-        {
+
+        // Test reachability in the opposite direction
+        if (!G.reachable(0, -1)) {
             cout << "Incorrectly identified -1 as unreachable from 0" << endl;
         }
-        if (G.reachable(1,2))
-        {
-            cout << "Incorrectly identified non-existant vetex 2 as reachable from 1" << endl;
+
+        // Test reachability to a non-existent vertex
+        if (G.reachable(1, 2)) {
+            cout << "Incorrectly identified non-existent vertex 2 as reachable from 1" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test reachability in a disconnected graph
+        Graph<string, int> disconnectedGraph(keys, data, {{-1}, {0}, {1}});
+        if (disconnectedGraph.reachable(-1, 0)) {
+            cout << "Incorrectly identified 0 as reachable from -1 in a disconnected graph" << endl;
+        }
+
+        // Test reachability from a vertex to itself
+        if (!G.reachable(-1, -1)) {
+            cout << "Incorrectly identified vertex -1 as unreachable from itself" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY FLOATS DATA CHARACTERS
-        vector<float> keys = {-1.1,0.1,1.1};
+        vector<float> keys = {-1.1, 0.1, 1.1};
         vector<char> data = {'a', 'l', 'p'};
-        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{}}; 
-
+        vector<vector<float>> edges = {{-1.1, 0.1, 1.1}, {-1.1, 1.1}, {}};
         Graph<char, float> G(keys, data, edges);
 
-        if (!G.reachable(-1.1, 1.1))
-        {
+        // Test reachability between adjacent vertices
+        if (!G.reachable(-1.1, 1.1)) {
             cout << "Incorrectly identified adjacent vertex 1.1 as unreachable from -1.1" << endl;
         }
-        if (!G.reachable(0.1, -1.1))
-        {
+
+        // Test reachability in the opposite direction
+        if (!G.reachable(0.1, -1.1)) {
             cout << "Incorrectly identified -1.1 as unreachable from 0.1" << endl;
         }
-        if (G.reachable(1.1,2.1))
-        {
-            cout << "Incorrectly identified non-existant vetex 2.1 as reachable from 1.1" << endl;
+
+        // Test reachability to a non-existent vertex
+        if (G.reachable(1.1, 2.1)) {
+            cout << "Incorrectly identified non-existent vertex 2.1 as reachable from 1.1" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test reachability from a vertex to itself
+        if (!G.reachable(-1.1, -1.1)) {
+            cout << "Incorrectly identified vertex -1.1 as unreachable from itself" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY CHARACTERS DATA FLOATS
-        vector<char> keys = {'a','l','p'};
+        vector<char> keys = {'a', 'l', 'p'};
         vector<float> data = {-1.1, 0.1, 1.1};
-        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{}}; 
-
+        vector<vector<char>> edges = {{'a', 'l', 'p'}, {'a', 'p'}, {}};
         Graph<float, char> G(keys, data, edges);
 
-        if (!G.reachable('a', 'p'))
-        {
-            cout << "Incorrectly identified adjacent vertex \'p\' as unreachable from \'a\'" << endl;
+        // Test reachability between adjacent vertices
+        if (!G.reachable('a', 'p')) {
+            cout << "Incorrectly identified adjacent vertex 'p' as unreachable from 'a'" << endl;
         }
-        if (!G.reachable('l', 'p'))
-        {
-            cout << "Incorrectly identified \'l\' as unreachable from \'p\'" << endl;
+
+        // Test reachability in the opposite direction
+        if (!G.reachable('l', 'a')) {
+            cout << "Incorrectly identified 'a' as unreachable from 'l'" << endl;
         }
-        if (G.reachable('l','b'))
-        {
-            cout << "Incorrectly identified non-existant vetex \'b\' as reachable from \'l\'" << endl;
+
+        // Test reachability to a non-existent vertex
+        if (G.reachable('l', 'b')) {
+            cout << "Incorrectly identified non-existent vertex 'b' as reachable from 'l'" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test reachability from a vertex to itself
+        if (!G.reachable('a', 'a')) {
+            cout << "Incorrectly identified vertex a as unreachable from itself" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 
-    try
-    {
+    try {
         // KEY STRINGS DATA INTEGERS
-        vector<string> keys = {"aryah","lam","phuong"};
+        vector<string> keys = {"aryah", "lam", "phuong"};
         vector<int> data = {-1, 0, 1};
-        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}}; 
-
+        vector<vector<string>> edges = {{"aryah", "lam", "phuong"}, {"aryah", "phuong"}, {}};
         Graph<int, string> G(keys, data, edges);
 
-        if (!G.reachable("aryah", "phuong"))
-        {
+        // Test reachability between adjacent vertices
+        if (!G.reachable("aryah", "phuong")) {
             cout << "Incorrectly identified adjacent vertex \"phuong\" as unreachable from \"aryah\"" << endl;
         }
-        if (!G.reachable("lam", "phuong"))
-        {
-            cout << "Incorrectly identified \"lam\" as unreachable from \"phuong\"" << endl;
+
+        // Test reachability in the opposite direction
+        if (!G.reachable("lam", "aryah")) {
+            cout << "Incorrectly identified \"aryah\" as unreachable from \"lam\"" << endl;
         }
-        if (G.reachable("lam","casey"))
-        {
-            cout << "Incorrectly identified non-existant vetex \"lam\" as reachable from \"casey\"" << endl;
+
+        // Test reachability to a non-existent vertex
+        if (G.reachable("lam", "casey")) {
+            cout << "Incorrectly identified non-existent vertex \"casey\" as reachable from \"lam\"" << endl;
         }
-    }
-    catch(const std::exception& e)
-    {
+
+        // Test reachability from a vertex to itself
+        if (!G.reachable("phuong", "phuong")) {
+            cout << "Incorrectly identified vertex phuong as unreachable from itself" << endl;
+        }
+    } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
 }
