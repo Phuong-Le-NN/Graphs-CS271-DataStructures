@@ -312,6 +312,114 @@ void test_bfs(Graph<string, string> *G)
     }
 }
 
+void test_bfs()
+{
+    try
+    {
+        // KEY INTEGERS DATA STRINGS
+        vector<int> keys = {-1,0,1,2};
+        vector<string> data = {"aryah", "lam", "phuong", "rao"};
+        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}, {}}; 
+
+        Graph<string, int> G(keys, data, edges);
+
+        G.bfs(-1);
+        int vertices[3] = {-1,0,1};
+        int distances[3] = {0,1,1};
+        for (int i = 0; i < 3; i++)
+        {
+            if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"-1\"" << endl;
+                cout << G.get(vertices[i])->distance << endl;
+            }
+        }
+
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY FLOATS DATA CHARACTERS
+        vector<float> keys = {-1.1,0.1,1.1,2.1};
+        vector<char> data = {'a', 'l', 'p', 'r'};
+        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{},{}}; 
+
+        Graph<char, float> G(keys, data, edges);
+
+        G.bfs(-1.1);
+        float vertices[3] = {-1.1,0.1,1.1};
+        int distances[3] = {0,1,1};
+        for (int i = 0; i < 3; i++)
+        {
+            if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"-1\"" << endl;
+                cout << G.get(vertices[i])->distance << endl;
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY CHARACTERS DATA FLOATS
+        vector<char> keys = {'a','l','p','r'};
+        vector<float> data = {-1.1, 0.1, 1.1,2.1};
+        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{},{}}; 
+
+        Graph<float, char> G(keys, data, edges);
+
+        G.bfs('a');
+        char vertices[3] = {'a','l','p'};
+        int distances[3] = {0,1,1};
+        for (int i = 0; i < 3; i++)
+        {
+            if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"-1\"" << endl;
+                cout << G.get(vertices[i])->distance << endl;
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    try
+    {
+        // KEY STRINGS DATA INTEGERS
+        vector<string> keys = {"aryah","lam","phuong", "rao"};
+        vector<int> data = {-1, 0, 1, 2};
+        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}, {}}; 
+
+        Graph<int, string> G(keys, data, edges);
+
+        G.bfs("aryah");
+        string vertices[3] = {"aryah","lam","phuong"};
+        int distances[3] = {0,1,1};
+        for (int i = 0; i < 3; i++)
+        {
+            if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"-1\"" << endl;
+                cout << G.get(vertices[i])->distance << endl;
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+}
+
 void test_print_path(Graph<string, string> *G)
 {
     try
@@ -328,6 +436,101 @@ void test_print_path(Graph<string, string> *G)
     catch (exception &e)
     {
         cerr << "Error testing print path : " << e.what() << endl;
+    }
+}
+
+void test_print_path()
+{
+    try
+    {
+        // KEY INTEGERS DATA STRINGS
+        vector<int> keys = {-1,0,1};
+        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
+
+        Graph<string, int> G(keys, data, edges);
+
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.print_path(-1,1);
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "-1 -> 1")
+        {
+            cout << "Incorrect path from vertex \"-1\" to vertex \"1\". Expected: -1 -> 1 but got : " << buffer.str() << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try
+    {
+        // KEY FLOATS DATA CHARACTERS
+        vector<float> keys = {-1.1,0.1,1.1};
+        vector<char> data = {'a', 'l', 'p'};
+        vector<vector<float>> edges = {{-1.1,0.1,1.1},{-1.1,1.1},{}}; 
+
+        Graph<char, float> G(keys, data, edges);
+
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.print_path(-1.1,1.1);
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "-1.1 -> 1.1")
+        {
+            cout << "Incorrect path from vertex \"-1.1\" to vertex \"1.1\". Expected: -1.1 -> 1.1 but got : " << buffer.str() << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try
+    {
+        // KEY CHARACTERS DATA FLOATS
+        vector<char> keys = {'a','l','p'};
+        vector<float> data = {-1.1, 0.1, 1.1};
+        vector<vector<char>> edges = {{'a','l','p'},{'a','p'},{}}; 
+
+        Graph<float, char> G(keys, data, edges);
+
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.print_path('a','p');
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "a -> p")
+        {
+            cout << "Incorrect path from vertex \"a\" to vertex \"p\". Expected: a -> p but got : " << buffer.str() << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try
+    {
+        // KEY STRINGS DATA INTEGERS
+        vector<string> keys = {"aryah","lam","phuong"};
+        vector<int> data = {-1, 0, 1};
+        vector<vector<string>> edges = {{"aryah","lam","phuong"},{"aryah","phuong"},{}}; 
+
+        Graph<int, string> G(keys, data, edges);
+
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.print_path("aryah","phuong");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "aryah -> phuong")
+        {
+            cout << "Incorrect path from vertex \"aryah\" to vertex \"phuong\". Expected: aryah -> phuong but got : " << buffer.str() << endl;
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -422,7 +625,7 @@ void test_bfs_tree()
         Graph<string, int> G(keys, data, edges);
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
-        G.bfs_tree(-1.5);
+        G.bfs_tree(-1);
         cout.rdbuf(prevbuf);
         if (buffer.str() != "-1\n0 1")
         {
@@ -449,9 +652,10 @@ int main()
 
     // Hard-coded test case
     test_get();
-    test_bfs_tree();
     test_reachable();
-
+    test_bfs();
+    test_print_path();
+    test_bfs_tree();
 
     cout << "Testing completed" << endl;
 
