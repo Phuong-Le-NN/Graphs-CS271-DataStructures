@@ -241,11 +241,6 @@ void        Graph<D,K>::print_path  (K u, K v)
 template<typename D, typename K>
 string      Graph<D,K>::edge_class     (K u, K v)
 {
-    // u and v are same
-    if (u == v){
-        return "no edge";
-    }
-
     // Get vertices
     Vertex* vertU = get(u);
     Vertex* vertV = get(v);
@@ -254,6 +249,17 @@ string      Graph<D,K>::edge_class     (K u, K v)
     if (vertU == nullptr ||  vertV == nullptr){
         return "no edge";
     }
+
+    // Special case of same key
+    if (u == v) {
+            // Check if self-loops are stored in the adjacency list
+            for (Vertex* adj : adjList[u]) {
+                if (adj->key == u) {
+                    return "back edge";
+                }
+            }
+            return "no edge";
+        }
 
     // Check if v is the DFS parent of u
     if (vertU->dfsParent == vertV || vertV->dfsParent == vertU) {
