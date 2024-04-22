@@ -446,7 +446,7 @@ void test_bfs()
         {
             if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
             {
-                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"-1\"" << endl;
+                cout << "Incorrect bfs result. Vertex " << vertices[i] << " should have distance " << distances[i] << " from source vertex \"a\"" << endl;
                 cout << G.get(vertices[i])->distance << endl;
             }
         }
@@ -458,7 +458,7 @@ void test_bfs()
         {
             if (G.get(keys[i])->distance != -1)
             {
-                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"3.1\"" << endl;
+                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"d\"" << endl;
                 cout << G.get(keys[i])->distance << endl;
             }
         }

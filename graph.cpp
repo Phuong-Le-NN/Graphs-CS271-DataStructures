@@ -57,6 +57,7 @@ template <typename D, typename K>
 
     // Call DFS
     dfs();
+    bfsSource = nullptr;
 }
 
 //========================================================
