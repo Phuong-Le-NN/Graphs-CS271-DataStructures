@@ -23,6 +23,18 @@ template <typename D, typename K>
             Graph<D,K>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
 {
     map <K, int> keyfreq;
+    for ( int i = 0; i < keys.size(); i++)
+    {
+        if (keyfreq[keys[i]] == 0)
+        {
+            keyfreq[keys[i]] = 1;
+        }
+        else
+        {   
+            // cout << "Set of keys contains duplicate" << endl;
+            return;
+        }
+    }
     // Create vertices and store them in the vertices map
     for (int i = 0; i < keys.size(); i++) {
         // Overall attributes
@@ -42,14 +54,9 @@ template <typename D, typename K>
         v.dfsVisited = false;
         
         // Update unordered map vertices - Map keys with vertices
-        if (keyfreq[keys[i]] == 0)
-        {
-            vertices[keys[i]] = v;
-            keyfreq[keys[i]] = 1;
-        }
-        else
-            {cout << "Set of keys contains duplicate" << endl;
-            exit(1);}
+        vertices[keys[i]] = v;
+
+
 
 
         // Append the key to vertices_list
