@@ -14,9 +14,9 @@
 //      keys - Vector of keys
 //      data - Vector of data
 //      edges - Adjacency vectors of keys
-// Pre-condition: 
-// Post-condition: 
-// Return: 
+// Pre-condition: No key duplicate in keys
+// Post-condition: Graph is constructed
+// Return: None
 //========================================================
 template <typename D, typename K>
             Graph<D,K>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
@@ -86,8 +86,8 @@ typename    Graph<D,K>::Vertex*     Graph<D,K>::get        (K key)
 // Parameters: 
 //      u - Key of starting vertex
 //      v - Key of destination vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key u and vertex with key v exists in graph
+// Post-condition: None
 // Return: Boolean indicating if vertex with key v is reachable from vertex with key u
 //========================================================
 template <typename D, typename K>
@@ -111,8 +111,8 @@ bool        Graph<D,K>::reachable   (K u, K v)
 // Execute breadth-first search with source vertex with key s
 // Parameters: 
 //      s - Key of source vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key s exists in graph
+// Post-condition: Attributes (distance and parent) of vertices in the bfs tree are updated accordingly 
 // Return: None
 //========================================================
 template <typename D, typename K>
@@ -180,8 +180,8 @@ void        Graph<D,K>::bfs         (K s)
 // Parameters: 
 //      u - Key of starting vertex
 //      v - Key of destination vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key u and key v exists in graph
+// Post-condition: Prints the path from vertex with key u to vertex with key v if exists
 // Return: None
 //========================================================
 template<typename D, typename K>
@@ -234,8 +234,8 @@ void        Graph<D,K>::print_path  (K u, K v)
 // Parameters: 
 //      u - Key of starting vertex
 //      v - Key of destination vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key u and key v exists in graph and DFS is called on graph
+// Post-condition: None
 // Return: string representation of edge from vertex with key u to vertex with key v
 //========================================================
 template<typename D, typename K>
@@ -284,8 +284,8 @@ string      Graph<D,K>::edge_class     (K u, K v)
 // Print the bfs tree with source vertex with key s
 // Parameters: 
 //      s - Key of source vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key s exists in graph
+// Post-condition: Print BFS tree level by level
 // Return: None
 //========================================================
 template<typename D, typename K>
@@ -383,8 +383,8 @@ void        Graph<D,K>::bfs_tree       (K s)
 // Perform depth-first search (DFS) starting from vertex v
 // Parameters: 
 //      v - Key of source vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Vertex with key v exists
+// Post-condition: Update attributes (discovertyTime and finishTime) according to DFS starting from vertex v
 // Return: None
 //========================================================
 template<typename D, typename K>
@@ -414,9 +414,9 @@ void        Graph<D,K>::dfs_helper       (K v)
 //========================================================
 // dfs
 // Perform depth-first search (DFS) on the entire graph
-// Parameters: 
-// Pre-condition: 
-// Post-condition: 
+// Parameters: None
+// Pre-condition: None
+// Post-condition: All attributes are updated according to DFS on the whole graph
 // Return: None
 //========================================================
 template<typename D, typename K>
