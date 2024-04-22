@@ -762,7 +762,7 @@ void test_edge_class()
         cerr << "Error testing bfs tree : " << e.what() << endl;
     }
 
-    // KEY INT DATA FLOAT
+    // KEY INTEGER DATA FLOAT
     try
     {
         vector<int> keys = {-1,0,1,2};
