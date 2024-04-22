@@ -1129,6 +1129,7 @@ void test_bfs_tree()
     {
         cerr << "Error testing bfs tree : " << e.what() << endl;
     }
+    
 }
 
 int main()

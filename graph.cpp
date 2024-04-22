@@ -56,9 +56,6 @@ template <typename D, typename K>
         // Update unordered map vertices - Map keys with vertices
         vertices[keys[i]] = v;
 
-
-
-
         // Append the key to vertices_list
         vertices_list.push_back(keys[i]); 
     }
@@ -449,9 +446,10 @@ void        Graph<D,K>::dfs       ()
     time = 0; // Reset the global time variable
 
     // Perform DFS on all unvisited vertices
-    for (auto& key : vertices_list) {
-        if (!vertices[key].dfsVisited) {
-            dfs_helper(key);
+    for (int i = 0; i < vertices_list.size(); i++)
+    {
+        if (!vertices[vertices_list[i]].dfsVisited) {
+            dfs_helper(vertices_list[i]);
         }
     }
 }
