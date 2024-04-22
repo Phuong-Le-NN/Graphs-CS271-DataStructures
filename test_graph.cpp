@@ -1104,6 +1104,53 @@ void test_bfs_tree()
     {
         cerr << "Error testing bfs tree : " << e.what() << endl;
     }
+
+    // KEY STRING DATA FLOAT WITH DUPLICATE KEY
+    try
+    {
+        vector<string> keys = {"a","b","c","c"};
+        vector<float> data = {1.5,2.5, 3.5};
+        vector<vector<string>> edges = {{"a","b","c","c"},{"a","c","c"},{"b"},{"b"}}; 
+
+        Graph<float, string> G(keys, data, edges);
+
+        // Test regular BFS tree
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.bfs_tree("a");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "a\nb c")
+        {
+            cout << "Incorrect bfs tree. Expected : \na\nb c \n but got :\n"
+                 << buffer.str() << endl;
+        }
+
+        // Test BFS tree with one level
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+        G.bfs_tree("c");
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "c")
+        {
+            cout << "Incorrect bfs tree. Expected : c but got :\n"
+                 << buffer1.str() << endl;
+        }
+
+        // Test non-existent BFS tree
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G.bfs_tree("f");
+        cout.rdbuf(prevbuf1);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect bfs tree. Expected : empty string but got :\n"
+                 << buffer2.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
 }
 
 int main()

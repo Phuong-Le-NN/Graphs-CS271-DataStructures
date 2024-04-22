@@ -6,6 +6,7 @@
 //=================================
 
 #include "graph.h"
+#include <map>
 
 //========================================================
 // Constructor
@@ -21,6 +22,7 @@
 template <typename D, typename K>
             Graph<D,K>::Graph      (vector<K> keys, vector<D> data, vector<vector<K>> edges)
 {
+    map <K, int> keyfreq;
     // Create vertices and store them in the vertices map
     for (int i = 0; i < keys.size(); i++) {
         // Overall attributes
@@ -38,9 +40,17 @@ template <typename D, typename K>
         v.finishTime = int();
         v.dfsParent = nullptr;
         v.dfsVisited = false;
-
+        
         // Update unordered map vertices - Map keys with vertices
-        vertices[keys[i]] = v;
+        if (keyfreq[keys[i]] == 0)
+        {
+            vertices[keys[i]] = v;
+            keyfreq[keys[i]] = 1;
+        }
+        else
+            {cout << "Set of keys contains duplicate" << endl;
+            exit(1);}
+
 
         // Append the key to vertices_list
         vertices_list.push_back(keys[i]); 
