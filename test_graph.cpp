@@ -62,6 +62,33 @@ void test_get(Graph<string, string> *G)
 }
 
 void test_get() {
+
+    try {
+        // KEY BOOL DATA STRINGS
+        vector<bool> keys = {1};
+        vector<string> data = {"aryah"};
+        vector<vector<bool>> edges = {{1}};
+        Graph<string, bool> G(keys, data, edges);
+
+        // Test getting an existing vertex
+        if (G.get(1) == nullptr || G.get(1)->data != "aryah") {
+            cout << "Incorrect result getting vertex \"1\"" << endl;
+        }
+
+        // Test getting a nonexistent vertex
+        if (G.get(0) != nullptr) {
+            cout << "Incorrect result getting nonexistent vertex \"2\"" << endl;
+        }
+
+        Graph<string, bool> G({0,1}, {"a","b"}, {{1,0},{0,1}});;
+        if (emptyGraph.get(0) != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << '\n';
+    }
+
     try {
         // KEY INTEGERS DATA STRINGS
         vector<int> keys = {-1, 0, 1};
@@ -161,6 +188,32 @@ void test_get() {
         // Test getting a vertex in an empty graph
         Graph<int, string> emptyGraph({}, {}, {});
         if (emptyGraph.get("lam") != nullptr) {
+            cout << "Incorrect result getting vertex from an empty graph" << endl;
+        }
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << '\n';
+    }
+
+    try {
+        // KEY STRINGS DATA BOOL
+        vector<string> keys = {"aryah", "lam", "phuong"};
+        vector<bool> data = {true, true, false};
+        vector<vector<string>> edges = {{"aryah", "lam", "phuong"}, {"aryah", "phuong"}, {}};
+        Graph<bool, string> G(keys, data, edges);
+
+        // Test getting an existing vertex
+        if (G.get("aryah") == nullptr || G.get("aryah")->data != true) {
+            cout << "Incorrect result getting vertex \"aryah\"" << endl;
+        }
+
+        // Test getting a non-existent vertex
+        if (G.get("casey") != nullptr) {
+            cout << "Incorrect result getting non-existent vertex \"casey\"" << endl;
+        }
+
+        // Test getting a vertex in an empty graph
+        Graph<int, string> emptyGraph({}, {}, {});
+        if (emptyGraph.get("lam") != true) {
             cout << "Incorrect result getting vertex from an empty graph" << endl;
         }
     } catch (const std::exception &e) {
