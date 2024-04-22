@@ -599,6 +599,185 @@ void test_edge_class(Graph<string, string> *G)
     }
 }
 
+void test_edge_class()
+{
+    // KEY FLOAT DATA CHAR
+    try
+    {
+        vector<float> keys = {-1.5,0.5,1.5,2};
+        vector<char> data = {'a','l', 'm','c'};
+        vector<vector<float>> edges = {{-1.5,0.5,1.5,2},{2},{-1.5,0.5},{2,-1.5}}; 
+
+        Graph<char, float> G(keys, data, edges);
+        string e_class = G.edge_class(-1.5, 0.5); // tree edge
+        if (e_class != "tree edge")
+        {
+            cout << "Misidentified tree edge (-1.5, 0.5) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(2,-1.5); // back edge
+        if (e_class != "back edge")
+        {
+            cout << "Misidentified back edge (2,-1.5) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(1.5,1.5); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (1.5,1.5) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(2,1.5); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (2,1.5) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(-1.5,2); // forward edge
+        if (e_class != "forward edge")
+        {
+            cout << "Misidentified forward edge (-1.5,2) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(1.5,0.5); // cross edge
+        if (e_class != "cross edge")
+        {
+            cout << "Misidentified forward edge (1.5,0.5) as : " << e_class << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+
+    // KEY INT DATA FLOAT
+    try
+    {
+        vector<int> keys = {-1,0,1,2};
+        vector<float> data = {0.5,0.5,3.5,7.5};
+        vector<vector<int>> edges = {{-1,0,1,2},{2},{-1,0},{2,-1}}; 
+
+        Graph<float, int> G(keys, data, edges);
+        string e_class = G.edge_class(-1, 0); // tree edge
+        if (e_class != "tree edge")
+        {
+            cout << "Misidentified tree edge (-1, 0) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(2,-1); // back edge
+        if (e_class != "back edge")
+        {
+            cout << "Misidentified back edge (2,-1) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(1,1); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (1,1) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(2,1); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (2,1) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(-1,2); // forward edge
+        if (e_class != "forward edge")
+        {
+            cout << "Misidentified forward edge (-1,2) as : " << e_class << endl;
+        }
+        e_class = G.edge_class(1,0); // cross edge
+        if (e_class != "cross edge")
+        {
+            cout << "Misidentified forward edge (1,0) as : " << e_class << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+
+    // KEY CHAR DATA STRING
+    try
+    {
+        vector<char> keys = {'3','0','1','2'};
+        vector<string> data = {"0.5","0.5","3.5","7.5"};
+        vector<vector<char>> edges = {{'3','0','1','2'},{'2'},{'3','0'},{'2','3'}}; 
+
+        Graph<string, char> G(keys, data, edges);
+        string e_class = G.edge_class('3', '0'); // tree edge
+        if (e_class != "tree edge")
+        {
+            cout << "Misidentified tree edge ('3', '0') as : " << e_class << endl;
+        }
+        e_class = G.edge_class('2','3'); // back edge
+        if (e_class != "back edge")
+        {
+            cout << "Misidentified back edge ('2','3') as : " << e_class << endl;
+        }
+        e_class = G.edge_class('1','1'); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge ('1','1') as : " << e_class << endl;
+        }
+        e_class = G.edge_class('2','1'); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge ('2','1') as : " << e_class << endl;
+        }
+        e_class = G.edge_class('3','2'); // forward edge
+        if (e_class != "forward edge")
+        {
+            cout << "Misidentified forward edge ('3','2') as : " << e_class << endl;
+        }
+        e_class = G.edge_class('1','0'); // cross edge
+        if (e_class != "cross edge")
+        {
+            cout << "Misidentified forward edge ('1','0') as : " << e_class << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+
+    // KEY STRING DATA INT
+    try
+    {
+        vector<string> keys = {"3","0","1","2"};
+        vector<int> data = {0,0,3,7};
+        vector<vector<string>> edges = {{"3","0","1","2"},{"2"},{"3","0"},{"2","3"}}; 
+
+        Graph<int, string> G(keys, data, edges);
+        string e_class = G.edge_class("3", "0"); // tree edge
+        if (e_class != "tree edge")
+        {
+            cout << "Misidentified tree edge (\"3\", \"0\") as :  "<< e_class << endl;
+        }
+        e_class = G.edge_class("2","3"); // back edge
+        if (e_class != "back edge")
+        {
+            cout << "Misidentified back edge (\"2\",\"3\") as :  "<< e_class << endl;
+        }
+        e_class = G.edge_class("1","1"); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (\"1\",\"1\") as :  "<< e_class << endl;
+        }
+        e_class = G.edge_class("2","1"); // no edge
+        if (e_class != "no edge")
+        {
+            cout << "Misidentified non-existant edge (\"2\",\"1\") as :  "<< e_class << endl;
+        }
+        e_class = G.edge_class("3","2"); // forward edge
+        if (e_class != "forward edge")
+        {
+            cout << "Misidentified forward edge (\"3\",\"2\") as :  "<< e_class << endl;
+        }
+        e_class = G.edge_class("1","0"); // cross edge
+        if (e_class != "cross edge")
+        {
+            cout << "Misidentified forward edge (\"1\",\"0\") as :  "<< e_class << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree :  "<< e.what() << endl;
+    }
+}
+
 void test_bfs_tree(Graph<string, string> *G)
 {
     try
@@ -621,14 +800,14 @@ void test_bfs_tree(Graph<string, string> *G)
 
 void test_bfs_tree()
 {
-    // KEY FLOAT DATA STRINGS
+    // KEY FLOAT DATA CHAR
     try
     {
         vector<float> keys = {-1.5,0.5,1.5};
-        vector<string> data = {"aryah", "lam", "phuong"};
+        vector<char> data = {'a','l', 'm'};
         vector<vector<float>> edges = {{-1.5,0.5,1.5},{-1.5,1.5},{}}; 
 
-        Graph<string, float> G(keys, data, edges);
+        Graph<char, float> G(keys, data, edges);
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.bfs_tree(-1.5);
@@ -666,6 +845,52 @@ void test_bfs_tree()
     {
         cerr << "Error testing bfs tree : " << e.what() << endl;
     }
+
+    // KEY CHAR DATA INT
+    try
+    {
+        vector<char> keys = {'a','b','c'};
+        vector<int> data = {1,2, 3};
+        vector<vector<char>> edges = {{'a','b','c'},{'a','c'},{}}; 
+
+        Graph<int, char> G(keys, data, edges);
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.bfs_tree('a');
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "a\nb c")
+        {
+            cout << "Incorrect bfs tree. Expected : \na\nb c \n but got :\n"
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
+
+    // KEY STRING DATA FLOAT
+    try
+    {
+        vector<string> keys = {"a","b","c"};
+        vector<float> data = {1.5,2.5, 3.5};
+        vector<vector<string>> edges = {{"a","b","c"},{"a","c"},{}}; 
+
+        Graph<float, string> G(keys, data, edges);
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G.bfs_tree("a");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "a\nb c")
+        {
+            cout << "Incorrect bfs tree. Expected : \na\nb c \n but got :\n"
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    }
 }
 
 int main()
@@ -683,6 +908,7 @@ int main()
     test_get();
     test_reachable();
     test_bfs();
+    test_edge_class();
     test_print_path();
     test_bfs_tree();
 
