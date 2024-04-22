@@ -55,6 +55,8 @@ template <typename D, typename K>
         adjList[keys[i]] = neighbors;                       // Map adjacency list to vertex key
     }
 
+    bfsSource = nullptr;
+    
     // Call DFS
     dfs();
     bfsSource = nullptr;
