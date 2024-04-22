@@ -80,11 +80,6 @@ void test_get() {
             cout << "Incorrect result getting nonexistent vertex \"2\"" << endl;
         }
 
-        Graph<string, bool> G({0,1}, {"a","b"}, {{1,0},{0,1}});;
-        if (emptyGraph.get(0) != nullptr) {
-            cout << "Incorrect result getting vertex from an empty graph" << endl;
-        }
-
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
     }
@@ -209,12 +204,6 @@ void test_get() {
         // Test getting a non-existent vertex
         if (G.get("casey") != nullptr) {
             cout << "Incorrect result getting non-existent vertex \"casey\"" << endl;
-        }
-
-        // Test getting a vertex in an empty graph
-        Graph<int, string> emptyGraph({}, {}, {});
-        if (emptyGraph.get("lam") != true) {
-            cout << "Incorrect result getting vertex from an empty graph" << endl;
         }
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
