@@ -16,7 +16,7 @@ To test our graph please execute:
 
 ## Feel free to reach out
 
-    Phoung Le: le_p2@denison.edu
+    Phuong Le: le_p2@denison.edu
     Lam Do: do_k2@denison.edu
     Aryah Rao: rao_a1@denison.edu
 
