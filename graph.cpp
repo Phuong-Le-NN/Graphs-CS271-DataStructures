@@ -98,7 +98,7 @@ bool        Graph<D,K>::reachable   (K u, K v)
         return false;
     }
     // BFS has not been performed or the source is different
-    if (bfsSource != u) {
+    if (bfsSource != get(u)) {
         bfs(u);
     }
     return vertX->distance != -1;       // Return if reachable from u
@@ -116,24 +116,29 @@ bool        Graph<D,K>::reachable   (K u, K v)
 template <typename D, typename K>
 void        Graph<D,K>::bfs         (K s) 
 {
-    // bfs already performed with key s
-    if (bfsSource == s) {
+    // Get vertex pointer
+    Vertex* vertS = get(s);
+
+    // BFS already performed with key s, exit
+    if (bfsSource == vertS) {
         return;
     }
 
-    // Get vertex pointer
-    Vertex* vertS = get(s);
+    // Clear BFS tree in case BFS has been called before
+    if (bfsSource != nullptr)
+    {
+        for (auto& pair : vertices)
+        {
+            Vertex* v = &pair.second;
+            v->distance = -1;
+            v->visited = false;
+            v->parent = nullptr;
+        }
+    }
 
     // If key s does not exist, exit
     if (vertS == nullptr) {
         return;
-    }
-
-    // Reset all values in the vertices
-    for (auto& pair : vertices) {
-        pair.second.visited = false;
-        pair.second.distance = -1;
-        pair.second.parent = nullptr;
     }
 
     // Update attributes of source s
@@ -163,9 +168,8 @@ void        Graph<D,K>::bfs         (K s)
             }
         }
     }
-
     // Update last called source of BFS
-    bfsSource = s;
+    bfsSource = vertS;
 }
 
 //========================================================
@@ -181,18 +185,18 @@ void        Graph<D,K>::bfs         (K s)
 template<typename D, typename K>
 void        Graph<D,K>::print_path  (K u, K v) 
 {
+    // If key u or key v does not exist, exit
+    if (get(u) == nullptr || get(v) == nullptr) {
+        return;
+    }
+    
     // Check the source before calling bfs
-    if (bfsSource != u) {
+    if (bfsSource != get(u)) {
         bfs(u);
     }
 
     // Get the vertex with key v to trace along the parents to get back to u
     Vertex* x = get(v)->parent;
-
-    // If key u or key v does not exist, exit
-    if (get(u) == nullptr || get(v) == nullptr) {
-        return;
-    }
 
     // Intitiate the stream to convert the keys on the path and print out later
     stringstream stream;
@@ -281,7 +285,7 @@ template<typename D, typename K>
 void        Graph<D,K>::bfs_tree       (K s) 
 {
     // Clear BFS tree in case BFS has been called before
-    if (bfsSource != K())
+    if (bfsSource != nullptr)
     {
         for (auto& pair : vertices)
         {
@@ -293,8 +297,8 @@ void        Graph<D,K>::bfs_tree       (K s)
     }
 
     // Start to create bfs by updating BFS source and get the src vertex
-    bfsSource = s;
     Vertex* src = get(s);
+    bfsSource = src;
 
     // If source not found, exit
     if(!src) {

@@ -42,7 +42,7 @@ unordered_map<K, Vertex> vertices;                  // Dictionary: Keys -> Verti
 unordered_map<K, vector<Vertex*>> adjList;          // Dictionary: Keys -> List of Adjacent Vertices
 vector<K> vertices_list;                            // List of vertex keys in the order they were added
 
-K           bfsSource;                              // Variable to store the BFS source
+Vertex*    bfsSource;                              // Variable to store the BFS source
 
 int         time;                                   // Global time variable
 void        dfs_helper      (K v);                  // Perform depth-first search (DFS) starting from vertex v

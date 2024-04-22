@@ -352,9 +352,10 @@ void test_bfs()
 
         Graph<string, int> G(keys, data, edges);
 
+        // Test BFS on regular graph with one unconnected vertex
         G.bfs(-1);
-        int vertices[3] = {-1,0,1};
-        int distances[3] = {0,1,1};
+        int vertices[4] = {-1,0,1,2};
+        int distances[4] = {0,1,1,-1};
         for (int i = 0; i < 3; i++)
         {
             if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
@@ -364,6 +365,21 @@ void test_bfs()
             }
         }
 
+        // Test BFS on non-existent source
+        G.bfs(3);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G.get(keys[i])->distance != -1)
+            {
+                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"3\"" << endl;
+                cout << G.get(keys[i])->distance << endl;
+            }
+        }
+
+        // Test BFS on empty graph 
+        Graph<string, int> emptyGraph({}, {}, {});
+        emptyGraph.bfs(1);
     }
     catch(const std::exception& e)
     {
@@ -379,10 +395,11 @@ void test_bfs()
 
         Graph<char, float> G(keys, data, edges);
 
+        // Test BFS on regular graph with one unconnected vertex
         G.bfs(-1.1);
-        float vertices[3] = {-1.1,0.1,1.1};
-        int distances[3] = {0,1,1};
-        for (int i = 0; i < 3; i++)
+        float vertices[4] = {-1.1,0.1,1.1,2.1};
+        int distances[4] = {0,1,1,-1};
+        for (int i = 0; i < 4; i++)
         {
             if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
             {
@@ -390,6 +407,22 @@ void test_bfs()
                 cout << G.get(vertices[i])->distance << endl;
             }
         }
+
+        // Test BFS on non-existent source
+        G.bfs(3.1);
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G.get(keys[i])->distance != -1)
+            {
+                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"3.1\"" << endl;
+                cout << G.get(keys[i])->distance << endl;
+            }
+        }
+
+        // Test BFS on empty graph 
+        Graph<char, float> emptyGraph({}, {}, {});
+        emptyGraph.bfs(1.1);
     }
     catch(const std::exception& e)
     {
@@ -405,10 +438,11 @@ void test_bfs()
 
         Graph<float, char> G(keys, data, edges);
 
+        // Test BFS on regular graph with one unconnected vertex
         G.bfs('a');
-        char vertices[3] = {'a','l','p'};
-        int distances[3] = {0,1,1};
-        for (int i = 0; i < 3; i++)
+        char vertices[4] = {'a','l','p','r'};
+        int distances[4] = {0,1,1,-1};
+        for (int i = 0; i < 4; i++)
         {
             if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
             {
@@ -416,6 +450,22 @@ void test_bfs()
                 cout << G.get(vertices[i])->distance << endl;
             }
         }
+
+        // Test BFS on non-existent source
+        G.bfs('d');
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G.get(keys[i])->distance != -1)
+            {
+                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"3.1\"" << endl;
+                cout << G.get(keys[i])->distance << endl;
+            }
+        }
+
+        // Test BFS on empty graph 
+        Graph<float, char> emptyGraph({}, {}, {});
+        emptyGraph.bfs('d');
     }
     catch(const std::exception& e)
     {
@@ -431,10 +481,11 @@ void test_bfs()
 
         Graph<int, string> G(keys, data, edges);
 
+        // Test BFS on regular graph with one unconnected vertex
         G.bfs("aryah");
-        string vertices[3] = {"aryah","lam","phuong"};
-        int distances[3] = {0,1,1};
-        for (int i = 0; i < 3; i++)
+        string vertices[4] = {"aryah","lam","phuong", "rao"};
+        int distances[4] = {0,1,1,-1};
+        for (int i = 0; i < 4; i++)
         {
             if (G.get(vertices[i]) == nullptr || G.get(vertices[i])->distance != distances[i])
             {
@@ -442,6 +493,22 @@ void test_bfs()
                 cout << G.get(vertices[i])->distance << endl;
             }
         }
+
+        // Test BFS on non-existent source
+        G.bfs("do");
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G.get(keys[i])->distance != -1)
+            {
+                cout << "Incorrect bfs result. Vertex " << keys[i] << " should have distance " << -1 << " from source vertex \"3.1\"" << endl;
+                cout << G.get(keys[i])->distance << endl;
+            }
+        }
+
+        // Test BFS on empty graph 
+        Graph<int, string> emptyGraph({}, {}, {});
+        emptyGraph.bfs("do");
     }
     catch(const std::exception& e)
     {
@@ -479,14 +546,28 @@ void test_print_path()
 
         Graph<string, int> G(keys, data, edges);
 
+        // Print regular path
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+
         G.print_path(-1,1);
         cout.rdbuf(prevbuf);
         if (buffer.str() != "-1 -> 1")
         {
             cout << "Incorrect path from vertex \"-1\" to vertex \"1\". Expected: -1 -> 1 but got : " << buffer.str() << endl;
         }
+
+        // Print non-existent path
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+
+        G.print_path(1,-1);
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "")
+        {
+            cout << "Incorrect path from vertex 1 to vertex -1. Expected: empty string but got : " << buffer.str() << endl;
+        }
+
     }
     catch(const std::exception& e)
     {
@@ -502,13 +583,25 @@ void test_print_path()
 
         Graph<char, float> G(keys, data, edges);
 
+        // Print regular path
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.print_path(-1.1,1.1);
         cout.rdbuf(prevbuf);
         if (buffer.str() != "-1.1 -> 1.1")
         {
-            cout << "Incorrect path from vertex \"-1.1\" to vertex \"1.1\". Expected: -1.1 -> 1.1 but got : " << buffer.str() << endl;
+            cout << "Incorrect path from vertex -1.1 to vertex 1.1. Expected: -1.1 -> 1.1 but got : " << buffer.str() << endl;
+        }
+
+        // Print non-existent path
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+
+        G.print_path(1.1,2.1);
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "")
+        {
+            cout << "Incorrect path from vertex 1.1 to vertex 2.1. Expected: empty string but got : " << buffer.str() << endl;
         }
     }
     catch(const std::exception& e)
@@ -525,13 +618,25 @@ void test_print_path()
 
         Graph<float, char> G(keys, data, edges);
 
+        // Print regular path
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.print_path('a','p');
         cout.rdbuf(prevbuf);
         if (buffer.str() != "a -> p")
         {
-            cout << "Incorrect path from vertex \"a\" to vertex \"p\". Expected: a -> p but got : " << buffer.str() << endl;
+            cout << "Incorrect path from vertex a to vertex p. Expected: a -> p but got : " << buffer.str() << endl;
+        }
+
+        // Print non-existent path
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+
+        G.print_path('p','a');
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "")
+        {
+            cout << "Incorrect path from vertex p to vertex a. Expected: empty string but got : " << buffer.str() << endl;
         }
     }
     catch(const std::exception& e)
@@ -548,6 +653,7 @@ void test_print_path()
 
         Graph<int, string> G(keys, data, edges);
 
+        // Print regular path
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.print_path("aryah","phuong");
@@ -555,6 +661,17 @@ void test_print_path()
         if (buffer.str() != "aryah -> phuong")
         {
             cout << "Incorrect path from vertex \"aryah\" to vertex \"phuong\". Expected: aryah -> phuong but got : " << buffer.str() << endl;
+        }
+
+        // Print non-existent path
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+
+        G.print_path("phuong","aryah");
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "")
+        {
+            cout << "Incorrect path from vertex \"phuong\" to vertex \"aryah\". Expected: empty string but got : " << buffer.str() << endl;
         }
     }
     catch(const std::exception& e)
@@ -808,6 +925,8 @@ void test_bfs_tree()
         vector<vector<float>> edges = {{-1.5,0.5,1.5},{-1.5,1.5},{}}; 
 
         Graph<char, float> G(keys, data, edges);
+
+        // Test regular BFS tree
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.bfs_tree(-1.5);
@@ -816,6 +935,28 @@ void test_bfs_tree()
         {
             cout << "Incorrect bfs tree. Expected : \n-1\n0 1 \n but got :\n"
                  << buffer.str() << endl;
+        }
+
+        // Test BFS tree with one level
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+        G.bfs_tree(1.5);
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "1.5")
+        {
+            cout << "Incorrect bfs tree. Expected : 1.5 but got :\n"
+                 << buffer1.str() << endl;
+        }
+
+        // Test non-existent BFS tree
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G.bfs_tree(3.5);
+        cout.rdbuf(prevbuf1);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect bfs tree. Expected : empty string but got :\n"
+                 << buffer2.str() << endl;
         }
     }
     catch (exception &e)
@@ -831,6 +972,8 @@ void test_bfs_tree()
         vector<vector<int>> edges = {{-1,0,1},{-1,1},{}}; 
 
         Graph<string, int> G(keys, data, edges);
+
+        // Test regular BFS tree
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.bfs_tree(-1);
@@ -839,6 +982,28 @@ void test_bfs_tree()
         {
             cout << "Incorrect bfs tree. Expected : \n-1\n0 1 \n but got :\n"
                  << buffer.str() << endl;
+        }
+
+        // Test BFS tree with one level
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+        G.bfs_tree(1);
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "1")
+        {
+            cout << "Incorrect bfs tree. Expected : 1 but got :\n"
+                 << buffer1.str() << endl;
+        }
+
+        // Test non-existent BFS tree
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G.bfs_tree(3);
+        cout.rdbuf(prevbuf1);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect bfs tree. Expected : empty string but got :\n"
+                 << buffer2.str() << endl;
         }
     }
     catch (exception &e)
@@ -850,10 +1015,12 @@ void test_bfs_tree()
     try
     {
         vector<char> keys = {'a','b','c'};
-        vector<int> data = {1,2, 3};
+        vector<int> data = {1, 2, 3};
         vector<vector<char>> edges = {{'a','b','c'},{'a','c'},{}}; 
 
         Graph<int, char> G(keys, data, edges);
+
+        // Test regular BFS tree
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.bfs_tree('a');
@@ -862,6 +1029,28 @@ void test_bfs_tree()
         {
             cout << "Incorrect bfs tree. Expected : \na\nb c \n but got :\n"
                  << buffer.str() << endl;
+        }
+
+        // Test BFS tree with one level
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+        G.bfs_tree('c');
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "c")
+        {
+            cout << "Incorrect bfs tree. Expected : c but got :\n"
+                 << buffer1.str() << endl;
+        }
+
+        // Test non-existent BFS tree
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G.bfs_tree('f');
+        cout.rdbuf(prevbuf1);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect bfs tree. Expected : empty string but got :\n"
+                 << buffer2.str() << endl;
         }
     }
     catch (exception &e)
@@ -877,6 +1066,8 @@ void test_bfs_tree()
         vector<vector<string>> edges = {{"a","b","c"},{"a","c"},{}}; 
 
         Graph<float, string> G(keys, data, edges);
+
+        // Test regular BFS tree
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G.bfs_tree("a");
@@ -885,6 +1076,28 @@ void test_bfs_tree()
         {
             cout << "Incorrect bfs tree. Expected : \na\nb c \n but got :\n"
                  << buffer.str() << endl;
+        }
+
+        // Test BFS tree with one level
+        stringstream buffer1;
+        streambuf *prevbuf1 = cout.rdbuf(buffer1.rdbuf());
+        G.bfs_tree("c");
+        cout.rdbuf(prevbuf1);
+        if (buffer1.str() != "c")
+        {
+            cout << "Incorrect bfs tree. Expected : c but got :\n"
+                 << buffer1.str() << endl;
+        }
+
+        // Test non-existent BFS tree
+        stringstream buffer2;
+        streambuf *prevbuf2 = cout.rdbuf(buffer2.rdbuf());
+        G.bfs_tree("f");
+        cout.rdbuf(prevbuf1);
+        if (buffer2.str() != "")
+        {
+            cout << "Incorrect bfs tree. Expected : empty string but got :\n"
+                 << buffer2.str() << endl;
         }
     }
     catch (exception &e)
