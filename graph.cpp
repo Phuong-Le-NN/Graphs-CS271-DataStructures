@@ -64,8 +64,8 @@ template <typename D, typename K>
 // Return a pointer to the vertex corresponding to key k
 // Parameters: 
 //      k - Key of vertex
-// Pre-condition: 
-// Post-condition: 
+// Pre-condition: Key k exists in graph
+// Post-condition: None
 // Return: Pointer to the vertex corresponding to key k
 //========================================================
 template <typename D, typename K>
@@ -189,7 +189,7 @@ void        Graph<D,K>::print_path  (K u, K v)
     if (get(u) == nullptr || get(v) == nullptr) {
         return;
     }
-    
+
     // Check the source before calling bfs
     if (bfsSource != get(u)) {
         bfs(u);
