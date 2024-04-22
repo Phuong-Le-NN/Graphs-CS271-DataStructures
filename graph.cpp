@@ -56,7 +56,7 @@ template <typename D, typename K>
     }
 
     bfsSource = nullptr;
-    
+
     // Call DFS
     dfs();
 }
@@ -241,12 +241,17 @@ void        Graph<D,K>::print_path  (K u, K v)
 template<typename D, typename K>
 string      Graph<D,K>::edge_class     (K u, K v)
 {
+    // u and v are same
+    if (u == v){
+        return "no edge";
+    }
+
     // Get vertices
     Vertex* vertU = get(u);
     Vertex* vertV = get(v);
 
     // Check if non-existent
-    if ( vertU == nullptr ||  vertV == nullptr){
+    if (vertU == nullptr ||  vertV == nullptr){
         return "no edge";
     }
 
